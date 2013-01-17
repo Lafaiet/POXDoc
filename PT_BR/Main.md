@@ -1,7 +1,7 @@
 # POX
 
 
-[* Installing POX](github.com/Lafaiet/POXDoc/blob/master/PT_BR/installing.md)
+[* Installing POX](https://github.com/Lafaiet/POXDoc/blob/master/PT_BR/installing.md)
 
   * Requirements
   * Getting the Code
