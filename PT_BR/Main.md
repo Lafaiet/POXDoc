@@ -110,9 +110,11 @@
    * My code isn't working!  Can you help me?
 
 
-Installing POX
-Requirements
-POX requires Python 2.7.  In practice, it also mostly runs with Python 2.6, but nobody is presently trying to push or support this.
+## Instalando o POX
+
+### Requisitos
+
+POX requer Python 2.7.  Na prática, ele também pode rodar com 2.6, mas ninguém está atualmente dando suporte a isso.
 
 POX officially supports Windows, Mac OS, and Linux (though it has been used on other systems as well).  A lot of the development happens on Mac OS, so it almost always works on Mac OS.  Occasionally things will break for the other OSes; the time it takes to fix such problems is largely a function of how quickly problems are reported.  In general, problems are noticed on Linux fairly quickly (especially for big problems) and noticed on Windows rather slowly.  If you notice something not working or that seems strange, please submit an issue on the github tracker or send a message to the pox-dev mailing list so that it can be fixed!
 
