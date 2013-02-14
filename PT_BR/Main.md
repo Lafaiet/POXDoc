@@ -1028,27 +1028,29 @@ A estrutura de combinação é definida em pox/openflow/libopenflow_01.py na cla
 
 Atributos de ofp_match :
 
-Attribute	Meaning
-in_port	Switch port number the packet arrived on
-dl_src	Ethernet source address
-dl_dst	Ethernet destination address
+Attributo	Significado
+in_port	Porta do switch que o pacotes chegou
+dl_src	Endereço de origem Ethernet
+dl_dst	Endereço de destino Ethernet
 dl_vlan	VLAN ID
-dl_vlan_pcp	VLAN priority
-dl_type	Ethertype / length (e.g. 0x0800 = IPv4)
+dl_vlan_pcp	VLAN prioridade
+dl_type	Ethertype / tamanho (e.g. 0x0800 = IPv4)
 nw_tos	IP TOS/DS bits
-nw_proto	IP protocol (e.g., 6 = TCP) or lower 8 bits of ARP opcode
-nw_src	IP source address
-nw_dst	IP destination address
-tp_src	TCP/UDP source port
-tp_dst	TCP/UDP destination port
-Attributes may be specified either on a match object or during its initialization.  That is, the following are equivalent:
+nw_proto	IP protocolo (e.g., 6 = TCP) or lower 8 bits of ARP opcode
+nw_src	Endereço de origem IP 
+nw_dst	Endereço de destino IP 
+tp_src	Porta de origem TCP/UDP 
+tp_dst	Porta de destino TCP/UDP 
+
+Atributos podem ser especificados tanto sobre um objeto como durante sua inicialização.  Isto é, os seguintes são equivalentes:
 
 my_match = of.ofp_match(in_port = 5, dl_dst = EthAddr("01:02:03:04:05:06"))
-#.. or ..
+#.. ou ..
 my_match = of.ofp_match()
 my_match.in_port = 5
 my_match.dl_dst = EthAddr("01:02:03:04:05:06")
-Unspecified fields are wildcarded and will match any packet.  You can explicitly set a field to be wildcarded by setting it to None.
+
+Campos não especificados são tratados como wildcards e vão combinar com qualquer pacote. Você pode explicitamente setar um campo para ser wildcard setando o mesmo como None.
 
 
 While the OpenFlow ofp_match structure is defined as having a wildcards attribute, you will probably never need to explicitly set it when using POX – simply don't assign values to fields you want wildcarded (or set them to None).
