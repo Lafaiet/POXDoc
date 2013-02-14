@@ -1,16 +1,16 @@
 # POX
 
 
-* Installing POX
-  * Requirements
-  * Getting the Code
-  * Selecting a Branch / Version
-  * PyPy Support
+* Instalando o POX
+  * Requisitos
+  * Adquirindo o Código
+  * Selecionando um Branch / Versão
+  * PyPy Supporte
 
-* Invoking POX
+* Invocando o POX
 
-* Components in POX
-  * Stock Components
+* Componentes do POX
+  * Componentes padrão
     * py
     * forwarding.l2_learning
     * forwarding.l2_pairs
@@ -30,41 +30,41 @@
     * misc.of_tutorial
     * misc.mac_blocker
     * log
-      * Disabling the Console Log
-      * Log Formatting
-      * Log Output
+      * Desabilitando o console de Log
+      * Formatação de Log
+      * Saída de Log
     * log.color
     * log.level
     * samples.pretty_log
     * tk
     
-* Developing your own Components
-  * The "ext" directory
-  * The launch function
-    * A Simple Example
-    * Multiple Invocation
-* POX APIs
-  * Working with POX: The POX Core object
-    * Registering Components
-  * Working with Addresses: pox.lib.addresses
-  * The Event System: pox.lib.revent
-    * Handling Events
-       * Event Handlers
-       * Listening To an Event
-       * Automatically Setting Listeners
-    * Creating Your Own Event Types
-    * Raising Events
-  * Working with packets: pox.lib.packet
+* Desenvolvendo seus próprios componentes
+  * O diretório "ext"
+  * A função de "envocar"
+    * Um exemplo simple
+    * Envocação múltipla
+* APIs do POX
+  * Trabalhando com o POX: O objeto POX Core
+    * Registrando componentes
+  * Trabalhando com endereços: pox.lib.addresses
+  * O sistema de eventos: pox.lib.revent
+    * Tratando eventos
+       * Tratadores de eventos
+       * Escutando um evento
+       * Setando escutadores automáticos
+    * Criando seu próprio tipo de evento
+    * Levantando eventos
+  * Trabalhando com pacotes: pox.lib.packet
     * Ethernet (ethernet)
-    * IP version 4 (ipv4)
+    * IP versão 4 (ipv4)
     * TCP (tcp)
        * tcp_opt class
-    * Example: ARP messages
-  * Threads, Tasks, and Timers: pox.lib.recoco
-    * Executing Code in the Future using a Timer
-  * Working with sockets: ioworker
-* OpenFlow in POX
-  * OpenFlow Events: Responding to Switches
+    * Exemplo: Mensagens ARP 
+  * Threads, Tasks, e Timers: pox.lib.recoco
+    * Executando códigos no futuro com um Timer
+  * Trabalhando com sockets: ioworker
+* OpenFlow no POX
+  * Eventos OpenFlow : Respondendo aos Switches
     * ConnectionUp
     * ConnectionDown
     * PortStatus
@@ -73,41 +73,41 @@
     * PacketIn
     * ErrorIn
     * BarrierIn
-  * OpenFlow Messages
-    * ofp_packet_out - Sending packets from the switch
-    * ofp_flow_mod - Flow table modification
-       * Example: Installing a table entry
-       * Example: Clearing tables on all switches
-    * ofp_stats_request - Requesting statistics from switches
-       * Example - Web Flow Statistics
-  * Match Structure
-       * Define a match from an existing packet
-  * OpenFlow Actions
+  * Mensagens OpenFlow
+    * ofp_packet_out - Enviando pacotes apartir do switch
+    * ofp_flow_mod - Modificação da tabela de fluxo
+       * Exemplo: Instalando uma entrada na tabela
+       * Exemplo: Limpando tableas em todos os switches
+    * ofp_stats_request - Requisitando estatísticas de todos os switches
+       * Exemplo - Estatísticas de fluxo Web
+  * Estrutura de combinação
+       * Definir uma combinação apartir de um pacote existente
+  * Ações OpenFlow
        * Output
        * Enqueue
-       * Set VLAN ID
-       * Set VLAN priority
-       * Set Ethernet source or destination address
-       * Set IP source or destination address
-       * Set IP Type of Service
-       * Set TCP/UDP source or destination port
-  * Communicating with a Datapath (Switch)
-       * Connection Objects
-       * Example: Sending a FlowMod
-       * Example: Sending a PacketOut
-* Third-Party Tools, Tutorials, Etc.
-   * POXDesk: A POX Web GUI
-   * OpenFlow Tutorial
-   * OpenFlow Switch Tutorial
-   * Flow Statistics Collector Example
-* Coding Conventions
+       * Setar ID de VLAN
+       * Setar prioridade de VLAN
+       * Setar endereço Ethernet de origem ou destino
+       * Setar endereço IP de origem ou destino
+       * Setar tipo de serviço IP
+       * Setar porta de origem ou destino TCP/UDP
+  * comunicando com um Datapath (Switch)
+       * Objetos Connection
+       * Exemplo: Enviando um FlowMod
+       * Exemplo: Enviando um PacketOut
+* Ferramentas de terceiros, Tutoriais, Etc.
+   * POXDesk: Uma interface gráfica web para o POX
+   * Tutorial OpenFlow
+   * Tutorial Switch OpenFlow
+   * Exemplo de Coletor de estatísticas de fluxo
+* Convenções de codificação
 * FAQs
-   * How can I change the OpenFlow port from 6633?
-   * How can I have some components start automatically every time I run POX?
-   * How do I get switches to send complete packet payloads to the controller?
-   * How can I communicate between components?
-   * How can I use POX with Mininet?
-   * My code isn't working!  Can you help me?
+   * Como posso mudar a porta Openflow 6633?
+   * Como posso ter algum componente iniciando automaticamente toda vez que rodar o POX?
+   * Como posso fazer os switches enviarem um pacote com payload completo para o controlador?
+   * Como posso estabelecer comunicação entre os componentes?
+   * Como posso usar o POX com o Mininet?
+   * Meu código não está funcionando! Podem me ajudar?
 
 
 ## Instalando o POX
@@ -147,13 +147,13 @@ option	meaning
 --verbose	Display extra information (especially useful for debugging startup problems)
 --no-cli	Do not start an interactive shell (No longer applies as of betta)
 --no-openflow	Do not automatically start listening for OpenFlow connections
-But running POX by itself doesn't do much – POX functionality is provided by components (POX comes with a handful of components, but POX's target audience is really people who want to be developing their own).  Components are specified on the commandline following any of the POX options above. An example of a POX component is forwarding.l2_learning.  This component makes OpenFlow switches operate kind of like L2 learning switches.  To run this component, you simply name it on the command line following any POX options:
+But running POX by itself doesn't do much – POX functionality is provided by components (POX comes with a handful of components, but POX's target audience is really people who want to be developing their own).  Components are specified on the commandline following any of the POX options above. An Exemplo of a POX component is forwarding.l2_learning.  This component makes OpenFlow switches operate kind of like L2 learning switches.  To run this component, you simply name it on the command line following any POX options:
 
 ./pox.py --no-cli forwarding.l2_learning
-You can specify multiple components on the command line.  Not all components work well together, but some do.  Indeed, some components depend on other components, so you may need to specify multiple components.  For example, you can run POX's web server component along with l2_learning:
+You can specify multiple components on the command line.  Not all components work well together, but some do.  Indeed, some components depend on other components, so you may need to specify multiple components.  For Exemplo, you can run POX's web server component along with l2_learning:
 
 ./pox.py --no-cli forwarding.l2_learning web.webcore
-Some components take arguments themselves.  These follow the component name and (like POX arguments) begin with two dashes.  For example, l2_learning has a "transparent" mode where switches will even forward packets that are usually dropped (such as LLDP messages), and the web server's port number can be changed from the default (8000) to an arbitrary port.  For example:
+Some components take arguments themselves.  These follow the component name and (like POX arguments) begin with two dashes.  For Exemplo, l2_learning has a "transparent" mode where switches will even forward packets that are usually dropped (such as LLDP messages), and the web server's port number can be changed from the default (8000) to an arbitrary port.  For Exemplo:
 
 ./pox.py --no-cli forwarding.l2_learning --transparent web.webcore --port=8888
  (If you're starting to think that command lines can get a bit long and complex, there's a solution: write a simple component that just launches other components.)
@@ -162,13 +162,13 @@ Components in POX
 When we talk about components in POX, what we really mean is something that we can put on the POX command line as described in "Invoking POX".  In the following sections, we discuss some of the components that come with POX and how you can go about creating your own.
 
 Stock Components
-POX comes with a number of stock components.  Some of these provide core functionality, some provide convenient features, and some are just examples.  To list a few:
+POX comes with a number of stock components.  Some of these provide core functionality, some provide convenient features, and some are just Exemplos.  To list a few:
 
 py
 This component causes POX to start an interactive Python interpreter that can be useful for debugging and interactive experimentation.  Before the betta branch, this was the default behavior (unless disabled with --no-cli).  Other components can add functions / values to this interpreter's namespace.
 
 forwarding.l2_learning
-This component makes OpenFlow switches act as a type of L2 learning switch.  This one operates much like NOX's "pyswitch" example, although the implementation is quite different.  While this component learns L2 addresses, the flows it installs are exact-matches on as many fields as possible.  For example, different TCP connections will result in different flows being installed.
+This component makes OpenFlow switches act as a type of L2 learning switch.  This one operates much like NOX's "pyswitch" Exemplo, although the implementation is quite different.  While this component learns L2 addresses, the flows it installs are exact-matches on as many fields as possible.  For example, different TCP connections will result in different flows being installed.
 
 forwarding.l2_pairs
 Like l2_learning, this component also makes OpenFlow switches act like a type of L2 learning switch.  However, this one is probably just about the simplest possible way to do it correctly.  Unlike l2_learning, l2_pairs installs rules based purely on MAC addresses.
@@ -300,7 +300,7 @@ Thus, one common way to start building your own POX module is simply to copy an 
 The launch function
 While naming a loadable Python module on the commandline is enough to get POX to load it, a proper POX component should contain a launch function.  In the generic sense, a launch function is a function that POX calls to tell the component to initialize itself.  This is usually a function actually named launch, though there are exceptions.  The launch function is how commandline arguments are actually passed to the component.
 
-A Simple Example
+A Simple Exemplo
 The POX commandline, as mentioned above, contains the modules you want to load.  After each module name is an optional set of parameters that go with the module.  For example, you might have a commandline like:
 
 ./pox.py foo --bar=3 --baz --spam=disabled
@@ -591,7 +591,7 @@ val (varies) - Option value
 Constants:
 
 EOL, NOP, MSS, WSOPT, SACKPERM, SACK, TSOPT - Option type IDs
-Example: ARP messages
+Exemplo: ARP messages
 You might want the controller to proxy the ARP replies rather than flood them all over the network depending on whether you know the MAC address of the machine the ARP request is looking for. To handle ARP packets in you should have an event listener set up to receive packet ins as shown:
 
 def _handle_PacketIn (self, event):
@@ -643,7 +643,7 @@ Timer Methods
 
 name	arguments	meaning
 cancel	None	Stop the timer (do not call the callback again)
-Example - One-Shot timer
+Exemplo - One-Shot timer
 
 from pox.lib.recoco import Timer
 
@@ -657,7 +657,7 @@ Timer(10, handle_timer_elapse, args = ["Hello"])
 # Alternate way for simple timers:
 from pox.core import core # Many components already do this
 core.callDelayed(10, handler_timer_elapse, "Hello") # You can just tack on args and kwargs.
-Example - Recurring timer
+Exemplo - Recurring timer
 
 # Simulate a long road trip
 
@@ -934,7 +934,7 @@ actions (list) - actions are defined below, each desired action object is then a
 match (ofp_match) - the match structure for the rule to match on (see below).
 See section of 5.3.3 of OpenFlow 1.0 spec. This class is defined in pox/openflow/libopenflow_01.py line 1831
 
-Example: Installing a table entry
+Exemplo: Installing a table entry
 # Traffic to 192.168.101.101:80 should be sent out switch port 4
 
 # One thing at a time...
@@ -952,7 +952,7 @@ self.connection.send( of.ofp_flow_mod( action=of.ofp_action_output( port=4 ),
                                        match=of.ofp_match( dl_type=0x800,
                                                            nw_dst="192.168.101.101",
                                                            tp_dst=80 )))
-Example: Clearing tables on all switches
+Exemplo: Clearing tables on all switches
 # create ofp_flow_mod message to delete all flows
 # (note that flow_mods match all flows by default)
 msg = of.ofp_flow_mod(command=of.OFPFC_DELETE)
@@ -976,7 +976,7 @@ See section of 5.3.5 of OpenFlow 1.0 spec for more info on this structure and on
 
 TODO: Show some of the individual stats request/reply types?
 
-Example - Web Flow Statistics
+Exemplo - Web Flow Statistics
 Request the flow table from a switch and dump info about web traffic.  This example is meant to be run along with, say, the forwarding.l2_learning component.  It can be pasted into the POX interactive interpreter.
 
 See the Statistics Events section for more info.
@@ -1202,7 +1202,7 @@ TODO: Discuss listening to events on Connection objects and other Connection att
 
 There are many types of messages you might send to a datapath – the OpenFlow specification holds a complete list.  We'll cover two of these – FlowMods and PacketOuts – below.
 
-Example: Sending a FlowMod
+Exemplo: Sending a FlowMod
 To send a flow mod you must define a match structure (discussed above) and set some flow mod specific parameters as shown here:
 
 msg = ofp_flow_mod()
@@ -1214,7 +1214,7 @@ msg.buffer_id = <some buffer id, if any>
 connection.send(msg)
 Using the connection variable obtained when the datapath joined, we can send the flowmod to the switch.
 
-Example: Sending a PacketOut
+Exemplo: Sending a PacketOut
 In a similar manner to a flow mod, one must first define a packet out as shown here:
 
 msg = of.ofp_packet_out(in_port=of.OFPP_NONE)
@@ -1275,10 +1275,10 @@ DEBUG:samples.of_sw_tutorial_oo:Attach switch SW_BADSWITCH.
 
 
 OpenFlow Switch Tutorial for Betta (of_sw_tutorial_resend.py) - this is the same module as above but takes advantage of resend functionality in the betta branch.
-Flow Statistics Collector Example
+Flow Statistics Collector Exemplo
 Prepared by William Emmanuel Yu.
 
-Flow Statistics Collector Example (flow_stats.py) - this module collects statistics every 5 seconds using a timer. There are three (3) kinds of statistics collected: port statistics, flow statistics and a sample displaying on web statistics (similar to an example below). This complete port and flow statistics requires the pox.openflow.of_json module in the betta branch of Pox.
+Flow Statistics Collector Exemplo (flow_stats.py) - this module collects statistics every 5 seconds using a timer. There are three (3) kinds of statistics collected: port statistics, flow statistics and a sample displaying on web statistics (similar to an example below). This complete port and flow statistics requires the pox.openflow.of_json module in the betta branch of Pox.
 Coding Conventions
 The Style Guide for Python Code (AKA PEP 8) outlines some conventions for developing in Python.  It's a good baseline, though POX does not aim for strict conformance.  Here are some guidelines for writing code in POX, especially if you'd like to have it merged.  Note that in some cases they are in addition to or differ from PEP 8.  Also note that the most important guideline is that code is readable.  Also also note that the code in the repository does not entirely conform with the below guidelines (pull requests that improve consistency are very welcome!).
 
