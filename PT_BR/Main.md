@@ -1053,13 +1053,14 @@ my_match.dl_dst = EthAddr("01:02:03:04:05:06")
 Campos não especificados são tratados como wildcards e vão combinar com qualquer pacote. Você pode explicitamente setar um campo para ser wildcard setando o mesmo como None.
 
 
-While the OpenFlow ofp_match structure is defined as having a wildcards attribute, you will probably never need to explicitly set it when using POX – simply don't assign values to fields you want wildcarded (or set them to None).
-The IP address fields can actually be partially wildcarded, which allows you to match entire subnets.  There are a number of ways to do this.  Here are some equivalent ones:
+Enquanto a estrutura ofp_match do OpenFlow é definida como tendo atributos wildcards, você provavelmente nunca precisará setar isso quando estiver usando o POX- simplesmente não atribua valores ao campo que você quer que seja wildcard (ou atribua NOne). 
+Os campos de endereço IP podem na verdade ser parcialmente wildcard, o que lhe permite combinar subnets inteiras. Há algumas formas de fazer isso. Aqui estão algumas equivalente:
 
 my_match.nw_src = "192.168.42.0/24"
 my_match.nw_src = (IPAddr("192.168.42.0"), 24)
 my_match.nw_src = "192.168.42.0/255.255.255.0"
-As an example, the following code will create a match for traffic to web servers:
+
+Como exemplo, o código seguinte criará uma combinação para tráfego direcionado a web server: 
 
 import pox.openflow.libopenflow_01 as of # POX convention
 import pox.lib.packet as pkt # POX convention
