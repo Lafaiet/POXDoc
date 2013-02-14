@@ -116,7 +116,7 @@
 
 POX requer Python 2.7.  Na prática, ele também pode rodar com 2.6, mas ninguém está atualmente dando suporte a isso.
 
-POX oficialmente suporta Windows, Mac OS, e Linux (though it has been used on other systems as well).  A lot of the development happens on Mac OS, so it almost always works on Mac OS.  Occasionally things will break for the other OSes; the time it takes to fix such problems is largely a function of how quickly problems are reported.  In general, problems are noticed on Linux fairly quickly (especially for big problems) and noticed on Windows rather slowly.  If you notice something not working or that seems strange, please submit an issue on the github tracker or send a message to the pox-dev mailing list so that it can be fixed!
+POX oficialmente suporta Windows, Mac OS, e Linux (contudo ele tem sido usando em outros sistemas também).  A lot of the development happens on Mac OS, so it almost always works on Mac OS.  Occasionally things will break for the other OSes; the time it takes to fix such problems is largely a function of how quickly problems are reported.  In general, problems are noticed on Linux fairly quickly (especially for big problems) and noticed on Windows rather slowly.  If you notice something not working or that seems strange, please submit an issue on the github tracker or send a message to the pox-dev mailing list so that it can be fixed!
 
 POX can be used with the "standard" Python interpreter (CPython), but also supports PyPy (see below).
 
@@ -1013,18 +1013,20 @@ def handle_flow_stats (event):
       web_flows += 1
   log.info("Web traffic: %s bytes over %s flows", web_bytes, web_flows)
 
-# Listen for flow stats
+# Escutar status de fluxo
 core.openflow.addListenerByName("FlowStatsReceived", handle_flow_stats)
 
-# Now actually request flow stats from all switches
+# Requisitar de fato status de fluxo de todos os switches
 for con in core.openflow.connections: # make this _connections.keys() for pre-betta
   con.send(of.ofp_stats_request(body=of.ofp_flow_stats_request()))
-Match Structure
-OpenFlow defines a match structure – ofp_match – which enables you to define a set of headers for packets to match against. You can either build a match from scratch, or use a factory method to create one based on an existing packet.
 
-The match structure is defined in pox/openflow/libopenflow_01.py in class ofp_match.  Its attributes are derived from the members listed in the OpenFlow specification, so refer to that for more information, though they are summarized in the table below.
+Estrutura de combinação
 
-ofp_match attributes:
+OpenFlow define uma estrutura de combinação – ofp_match – que permite a você definir um conjunto de cabeçalhos que serão combinados. Você pode tanto criar do zero ou usar um facory method para criar baseado em um pacote pacore já existente.
+
+A estrutura de combinação é definida em pox/openflow/libopenflow_01.py na classe ofp_match.  Seus atributos são derivados dso membros existentes na especificação do OpenFlow, então dirija-se à ela para maiores informações. Ainda assim, ela está resumida na tabela abaixo:
+
+Atributos de ofp_match :
 
 Attribute	Meaning
 in_port	Switch port number the packet arrived on
