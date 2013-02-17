@@ -1283,24 +1283,35 @@ class ofp_flow_mod (ofp_header):
         self.actions = []
 ```
 
-cookie (int) - identifier for this flow rule. (optional)
-command (int) - One of the following values:
-OFPFC_ADD - add a rule to the datapath (default)
-OFPFC_MODIFY - modify any matching rules
-OFPFC_MODIFY_STRICT - modify rules which strictly match wildcard values.
-OFPFC_DELETE - delete any matching rules
-OFPFC_DELETE_STRICT - delete rules which strictly match wildcard values.
-idle_timeout (int) - rule will expire if it is not matched in 'idle_timeout' seconds. A value of OFP_FLOW_PERMANENT means there is no idle_timeout (the default).
-hard_timeout (int) - rule will expire after 'hard_timeout' seconds. A value of OFP_FLOW_PERMANENT means it will never expire (the default)
-priority (int) - the priority at which a rule will match, higher numbers higher priority. Note: Exact matches will have highest priority.
-buffer_id (int) - A buffer on the datapath that the new flow will be applied to.  Use None for none.  Not meaningful for flow deletion.
-out_port (int) - This field is used to match for DELETE commands.OFPP_NONE may be used to indicate that there is no restriction.
-flags (int) - One of the following values:
-OFPFF_SEND_FLOW_REM - Send flow removed message to the controller when rule expires
-OFPFF_CHECK_OVERLAP - Check for overlapping entries when installing. If one exists, then an error is send to controller
-OFPFF_EMERG - Consider this flow as an emergency flow and only use it when the switch controller connection is down.
-actions (list) - actions are defined below, each desired action object is then appended to this list and they are executed in order.
-match (ofp_match) - the match structure for the rule to match on (see below).
+* cookie (int) - identifier for this flow rule. (optional)
+
+* command (int) - One of the following values:
+
+  * OFPFC_ADD - add a rule to the datapath (default)
+  * OFPFC_MODIFY - modify any matching rules
+  * OFPFC_MODIFY_STRICT - modify rules which strictly match wildcard values.
+  * OFPFC_DELETE - delete any matching rules
+  * OFPFC_DELETE_STRICT - delete rules which strictly match wildcard values.
+* idle_timeout (int) - rule will expire if it is not matched in 'idle_timeout' seconds. A value of OFP_FLOW_PERMANENT means there is no idle_timeout (the default).
+
+* hard_timeout (int) - rule will expire after 'hard_timeout' seconds. A value of OFP_FLOW_PERMANENT means it will never expire (the default)
+
+* priority (int) - the priority at which a rule will match, higher numbers higher priority. Note: Exact matches will have highest priority.
+
+* buffer_id (int) - A buffer on the datapath that the new flow will be applied to.  Use None for none.  Not meaningful for flow deletion.
+
+* out_port (int) - This field is used to match for DELETE commands.OFPP_NONE may be used to indicate that there is no restriction.
+
+* flags (int) - One of the following values:
+
+  * OFPFF_SEND_FLOW_REM - Send flow removed message to the controller when rule expires
+  * OFPFF_CHECK_OVERLAP - Check for overlapping entries when installing. If one exists, then an error is send to controller
+  * OFPFF_EMERG - Consider this flow as an emergency flow and only use it when the switch controller connection is down.
+
+* actions (list) - actions are defined below, each desired action object is then appended to this list and they are executed in order.
+
+* match (ofp_match) - the match structure for the rule to match on (see below).
+
 See section of 5.3.3 of OpenFlow 1.0 spec. This class is defined in pox/openflow/libopenflow_01.py line 1831
 
 
