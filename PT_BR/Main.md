@@ -1223,7 +1223,7 @@ class BarrierIn (Event):
 Fired in response to a barrier reply.
 
 
-Mensagens OpenFlow
+###Mensagens OpenFlow
 
 Mensagens OpenFlow são o como como os switches se comunicam com controladores. As mensagens são definidas na especificação do OpenFlow. Há múltiplas versões dessa especificação; POX atualmente suporta a versão 1.0.0 do OpenFlow (versão de protocolo cabeado 0x01).
 
@@ -1242,24 +1242,22 @@ TODO: Redo following sections to have tables of values/types/descriptions rather
 
 
 
-ofp_packet_out - Enviandopacotes apartir de um switch
+ofp_packet_out - Enviando pacotes apartir de um switch
 O propósito principal dessa mensagem é instruir um switch a enviar um pacote (ou enfileirá-lo). Contudo, isso pode ser também útil como forma de instruir um switch para descartar um pacotes presente em seu buffer (simplesmente não especificando qualquer ação).  
 
 
+<table>
+<tr><th>atributo</th> <th>tipo</th> <th>padrão</th> <th>nota</tr>
 
-atributo tipo padrão nota
+<tr><th>buffer_id</th> <th>int/None</th> <th>None</th> <th>ID of the buffer in which the packet is stored at the datapath. If you're not resending a buffer by ID, use None.</th></tr>
 
-attribute |    type |    default  |  notes
-----------+---------+-------------+-------
-buffer_id    int/None    None    ID of the buffer in which the packet is stored at the datapath. If you're not resending a buffer by ID, use None.
-in_port    int    OFPP_NONE    Switch port that the packet arrived on if resending a packet.
-actions    list of ofp_action_XXXX    [ ]    If you have a single item, you can also specify this using the named parameter "action" of the initializer.
-data    bytes / ethernet / ofp_packet_in    ''    
-The data to be sent (or None if sending an existing buffer via its buffer_id).
+<tr><th>in_port</th> <th>int</th> <th>OFPP_NONE</th> <th>Switch port that the packet arrived on if resending a packet.</th></tr>
 
+<tr><th>actions</th> <th>list of ofp_action_XXXX </th> <th>[ ]</th> <th>If you have a single item, you can also specify this using the named parameter "action" of the initializer.</th></tr>
 
-If you specify an ofp_packet_in for this, in_port, buffer_id, and data will all be set correctly – this is the easiest way to resend a packet.
-
+<tr><th>data</th> <th>bytes / ethernet / ofp_packet_in</th> <th>''</th> <th>The data to be sent (or None if sending an existing buffer via its buffer_id).
+If you specify an ofp_packet_in for this, in_port, buffer_id, and data will all be set correctly – this is the easiest way to resend a packet.</th></tr>
+</table>
 
 If you receive an ofp_packet_in and wish to resend it, you can simply use it as the data attribute.
 See section of 5.3.6 of OpenFlow 1.0 spec. This class is defined in pox/openflow/libopenflow_01.py.
