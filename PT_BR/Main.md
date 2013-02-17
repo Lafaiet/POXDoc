@@ -1107,7 +1107,8 @@ FlowRemoved
 Event class definition:
 
 
-```class FlowRemoved (Event):
+```
+class FlowRemoved (Event):
   def __init__ (self, connection, ofp):
         Event.__init__(self)
         self.connection = connection
