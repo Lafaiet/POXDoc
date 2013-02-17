@@ -1107,7 +1107,7 @@ FlowRemoved
 Event class definition:
 
 
-``` class FlowRemoved (Event):
+```class FlowRemoved (Event):
   def __init__ (self, connection, ofp):
         Event.__init__(self)
         self.connection = connection
@@ -1126,6 +1126,7 @@ Event class definition:
         elif ofp.reason == of.OFPRR_DELETE:
           self.deleted = True
 ```
+
 Raised when a flow entry has been removed from a flow table. This may either be because of a timeout or because it was removed explicitly.  Such notifications are sent when the flow was installed with the OFPFF_SEND_FLOW_REM flag set.  See the OpenFlow specification for further details.
 
 
