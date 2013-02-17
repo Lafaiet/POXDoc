@@ -1315,7 +1315,7 @@ class ofp_flow_mod (ofp_header):
 See section of 5.3.3 of OpenFlow 1.0 spec. This class is defined in pox/openflow/libopenflow_01.py line 1831
 
 
-Exemplo: Installing a table entry
+**Exemplo: Installing a table entry
 
 ```
 # Traffic to 192.168.101.101:80 should be sent out switch port 4
@@ -1340,8 +1340,10 @@ self.connection.send( of.ofp_flow_mod( action=of.ofp_action_output( port=4 ),
 ```
 
 
+
+**Exemplo: Clearing tables on all switches
+
 ```
-Exemplo: Clearing tables on all switches
 # create ofp_flow_mod message to delete all flows
 # (note that flow_mods match all flows by default)
 msg = of.ofp_flow_mod(command=of.OFPFC_DELETE)
