@@ -1365,29 +1365,31 @@ class ofp_stats_request (ofp_header):
         self.body = b''
 ```
 
-* type (int) - The type of stats request (e.g., OFPST_PORT).  Default is to try to guess based on body.
+* type (int) - o tipo de requisição de status (e.g., OFPST_PORT).  Padrão é tentar adicinhar baseado no corpo.
 
-* flags (int) - No flags are defined in OpenFlow 1.0.
+* flags (int) - Nenhuma flag é definida no OpenFlow 1.0.
 
-* body (flexible) - The body of the stats request.  This can be a raw bytes object, or a packable class (e.g., ofp_port_stats_request).
-See section of 5.3.5 of OpenFlow 1.0 spec for more info on this structure and on the individual statistics types (port stats, flow stats, aggregate flow stats, table stats, etc.). This class is defined in pox/openflow/libopenflow_01.py
+* body (flexible) - O corpo da requisição de status.  Isso pode ser um objeto puro em bytes, ou uma classe de empacotamento(e.g., ofp_port_stats_request).
+
+Veja a sessão 3.5.5 da especificação do OpenFlow para maiores informaçoes acerca dessa estrutura e de cada tipo estatística individualmente (port stats, flow stats, aggregate flow stats, table stats, etc.). Essa classe é definida em pox/openflow/libopenflow_01.py
 
 
 TODO: Show some of the individual stats request/reply types?
 
 
-**Exemplo - Web Flow Statistics**
-Request the flow table from a switch and dump info about web traffic.  This example is meant to be run along with, say, the forwarding.l2_learning component.  It can be pasted into the POX interactive interpreter.
+**Exemplo - Estatísticas de fluxo Web**
 
 
-See the Statistics Events section for more info.
+Requisita a tabela de fluxo de um switch e mostra informaçoes sobre tráfego web. Esse exemplo  foi feito para rodar em conjunto, digamos, com um componente orwarding.l2_learning component. Ele pode ser colado dentro do interpretador interativo do POX.
+
+Veja evetos de estatísticas para mais informações.
 
 ```
 import pox.openflow.libopenflow_01 as of
 log = core.getLogger("WebStats")
 
 
-`# When we get flow stats, print stuff out
+`# Quando tivermos status do fluxo, imprima tudo
 `
 
 def handle_flow_stats (event):
@@ -1413,7 +1415,7 @@ for con in core.openflow.connections: # make this _connections.keys() for pre-be
   con.send(of.ofp_stats_request(body=of.ofp_flow_stats_request()))
 ```
 
-Estrutura de combinação
+###Estrutura de combinação
 
 
 OpenFlow define uma estrutura de combinação – ofp_match – que permite a você definir um conjunto de cabeçalhos que serão combinados. Você pode tanto criar do zero ou usar um facory method para criar baseado em um pacote pacore já existente.
