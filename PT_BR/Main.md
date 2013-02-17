@@ -1240,8 +1240,6 @@ Nas seguintes subsessões, nós discutiremos um subconjunto da interface OpenFlo
 TODO: Redo following sections to have tables of values/types/descriptions rather than snippets from init functions.
 
 
-
-
 ofp_packet_out - Enviando pacotes apartir de um switch
 O propósito principal dessa mensagem é instruir um switch a enviar um pacote (ou enfileirá-lo). Contudo, isso pode ser também útil como forma de instruir um switch para descartar um pacotes presente em seu buffer (simplesmente não especificando qualquer ação).  
 
@@ -1249,20 +1247,22 @@ O propósito principal dessa mensagem é instruir um switch a enviar um pacote (
 <table>
 <tr><th>atributo</th> <th>tipo</th> <th>padrão</th> <th>nota</tr>
 
-<tr><th>buffer_id</th> <th>int/None</th> <th>None</th> <th>ID of the buffer in which the packet is stored at the datapath. If you're not resending a buffer by ID, use None.</th></tr>
+<tr><th>buffer_id</th> <th>int/None</th> <th>None</th> <th>ID do buffer ao qual o pacote está armazenado no switch. Se você está não está reenviando um buffer por meio de ID, use None.</th></tr>
 
-<tr><th>in_port</th> <th>int</th> <th>OFPP_NONE</th> <th>Switch port that the packet arrived on if resending a packet.</th></tr>
+<tr><th>in_port</th> <th>int</th> <th>OFPP_NONE</th> <th>Prta do switch que opacote chega se reenviando um pacote.</th></tr>
 
-<tr><th>actions</th> <th>list of ofp_action_XXXX </th> <th>[ ]</th> <th>If you have a single item, you can also specify this using the named parameter "action" of the initializer.</th></tr>
+<tr><th>actions</th> <th>lista de ofp_action_XXXX </th> <th>[ ]</th> <th>Se você tiver um único ítem, você tmabém pode especificar isso usando o parâmetro chamado "action" do inicializador.</th></tr>
 
-<tr><th>data</th> <th>bytes / ethernet / ofp_packet_in</th> <th>''</th> <th>The data to be sent (or None if sending an existing buffer via its buffer_id).
-If you specify an ofp_packet_in for this, in_port, buffer_id, and data will all be set correctly – this is the easiest way to resend a packet.</th></tr>
+<tr><th>data</th> <th>bytes / ethernet / ofp_packet_in</th> <th>''</th> <th>O dado a ser enviado ( ou nenhum se estiver enviando um beffer já existente pelo seu buffer_id).
+Se você especificar um ofp_packet_in para isso, in_port, buffer_id e o dado será enviado corretamente- esse é o meio mais fácil de reenviar um pacote.</th></tr>
 </table>
 
-If you receive an ofp_packet_in and wish to resend it, you can simply use it as the data attribute.
-See section of 5.3.6 of OpenFlow 1.0 spec. This class is defined in pox/openflow/libopenflow_01.py.
+Se você receber um ofp_packet_in e deseja reenviá-lo, você pode simplesmente usar isso como o atributo do dado. 
+
+Veja a sessão de 5.3.6 para a especificação 1.0 do OpenFlow. Essa classe é definida em pox/openflow/libopenflow_01.py. 
 
 
+```
 ofp_flow_mod - Flow table modification
 class ofp_flow_mod (ofp_header):
   def __init__ (self, **kw):
@@ -1281,6 +1281,8 @@ class ofp_flow_mod (ofp_header):
         self.out_port = OFPP_NONE
         self.flags = 0
         self.actions = []
+```
+
 cookie (int) - identifier for this flow rule. (optional)
 command (int) - One of the following values:
 OFPFC_ADD - add a rule to the datapath (default)
