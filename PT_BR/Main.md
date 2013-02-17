@@ -982,9 +982,7 @@ TODO: Documentation and samples
 
 
 
-
-
-OpenFlow no POX[h]
+##OpenFlow no POX
 
 
 Uma das principais intenções do uso do POX é o desenvolvimento de aplicações de controle OpenFlow. Neste capítulo, descrevemos algumas das características e interfaces do POX que facilitam isso.
@@ -1222,27 +1220,34 @@ class BarrierIn (Event):
 Fired in response to a barrier reply.
 
 
-OpenFlow Messages
-OpenFlow messages are how OpenFlow switches communicate with controllers.  The messages are defined in the OpenFlow Specification.  There are multiple versions of the specification; POX currently supports OpenFlow version 1.0.0 (wire protocol version 0x01).
+Mensagens OpenFlow
+
+Mensagens OpenFlow são o como como os switches se comunicam com controladores. As mensagens são definidas na especificação do OpenFlow. Há múltiplas versões dessa especificação; POX atualmente suporta a versão 1.0.0 do OpenFlow (versão de protocolo cabeado 0x01).
 
 
-POX contains classes and constants corresponding to elements of the OpenFlow protocol, and these are defined in the file pox/openflow/libopenflow_01.py (the 01 referring to the wire protocol version). For the most part, the names are the same as they are in the specification.  In a few instances, POX has names which we think are better.  Additionally, POX defines some classes do not correspond to specific structures in the specification (the specification does not describe structs which are just a plain OpenFlow header only differentiated by the message type attribute – POX does).  Thus, you may well wish to refer to the OpenFlow Specification itself in addition to this document (and, of course, the POX code and pydoc/Sphinx reference).
+O POX cotém classes e constantes correspondendo a elementos do protocolo OpenFlow, e estão definidos no arquivo pox/openflow/libopenflow_01.py (o 01 refere-se a versão do protocolo). Na maior parte da vezes, os nomes são os mesmos que estão na especificação. Em algumas instâncias, POX tem nomes que nós julgamos ser melhores. Adicionalmente, POX define algumas classes que não correspondem a estruturas específicas da especificação (s espefificação não descreve estruturas que são somente cabeçalhos planos OpenFlow somente diferenciados pelo tipo de atributo de mensagem- O POX sim). Logo, você pode querer consultar a especificação do Openflow em adição à esse documento (e, claro, ao código do POX e a refeência do pydoc/Sphinx ) 
 
 
-A nice aspect of POX's OpenFlow library is that many fields have useful default values or can infer values.
 
+Um aspecto legal do da biblioteca OpenFlow do POX é que muitos campos possuem valores padrão ou podem inferir alguns valores.
 
-In the following subsections, we will discuss a useful subset of POX's OpenFlow interface.
+Nas seguintes subsessões, nós discutiremos um subconjunto da interface OpenFlow do POX. 
 
 
 TODO: Redo following sections to have tables of values/types/descriptions rather than snippets from init functions.
 
 
-ofp_packet_out - Sending packets from the switch
-The main purpose of this message is to instruct a switch to send a packet (or enqueue it).  However it can also be useful as a way to instruct a switch to discard a buffered packet (by simply not specifying any actions).
 
 
-attribute    type    default    notes
+ofp_packet_out - Enviandopacotes apartir de um switch
+O propósito principal dessa mensagem é instruir um switch a enviar um pacote (ou enfileirá-lo). Contudo, isso pode ser também útil como forma de instruir um switch para descartar um pacotes presente em seu buffer (simplesmente não especificando qualquer ação).  
+
+
+
+atributo tipo padrão nota
+
+attribute |    type |    default  |  notes
+----------+---------+-------------+-------
 buffer_id    int/None    None    ID of the buffer in which the packet is stored at the datapath. If you're not resending a buffer by ID, use None.
 in_port    int    OFPP_NONE    Switch port that the packet arrived on if resending a packet.
 actions    list of ofp_action_XXXX    [ ]    If you have a single item, you can also specify this using the named parameter "action" of the initializer.
@@ -1640,23 +1645,23 @@ connection.send(msg)
 Using the connection variable obtained when the datapath joined, we can send the flowmod to the switch.
 
 
-Exemplo: Sending a PacketOut
-In a similar manner to a flow mod, one must first define a packet out as shown here:
+Exemplo: Enviando um PacketOut
+De modo similar à um flow mod, é preciso primeiro definir um pacote de saída como mostrado:
 
 
 msg = of.ofp_packet_out(in_port=of.OFPP_NONE)
 msg.actions.append(of.ofp_action_output(port = outport))
 msg.buffer_id = <some buffer id, if any>
 connection.send(msg)
-The inport is set to OFPP_NONE because the packet was generated at the controller and did not originate as a packet in at the datapath.
+
+inport é setado como OFPP_NONE por que o pacote foi gerado no controlador e não originado como um pacote no switch.
 
 
-Third-Party Tools, Tutorials, Etc.
+Aplicações de terceiros, tutoriais, Etc.
 
 
 
-
-Esse sessão tem por objetivos destacar alguns projetos que fazem uso do POX mas que não são partes integralizantes dele. (Isso pode ser movido para uma página própria ou algo assim no furuto.)
+Essa sessão tem por objetivo destacar alguns projetos que fazem uso do POX mas que não são partes integralizantes dele. (Isso pode ser movido para uma página própria ou algo assim no furuto.)
 
 
 POXDesk: Uma interface gráfica web para o POX
