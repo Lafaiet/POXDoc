@@ -8,103 +8,115 @@
   * Adquirindo o Código
   * Selecionando um Branch / Versão
   * PyPy Supporte
-
-
+    
+   <br>
+   
 * Chamando o POX
-
-
+<br>	
 * Componentes do POX
   * Componentes padrão
-        * py
-        * forwarding.l2_learning
-        * forwarding.l2_pairs
-        * forwarding.l3_learning
-        * forwarding.l2_multi
-        * openflow.spanning_tree
-        * web.webcore
-        * messenger
-        * openflow.of_01
-        * openflow.discovery
-        * openflow.debug
-        * openflow.keepalive
-        * misc.pong
-        * misc.arp_responder
-        * misc.packet_dump
-        * misc.dns_spy
-        * misc.of_tutorial
-        * misc.mac_blocker
-        * log
-          * Desabilitando o console de Log
-          * Formatação de Log
-          * Saída de Log
-        * log.color
-        * log.level
-        * samples.pretty_log
-        * tk
+       * py
+       * forwarding.l2_learning
+       * forwarding.l2_pairs
+       * forwarding.l3_learning
+       * forwarding.l2_multi
+       * openflow.spanning_tree
+       * web.webcore
+       * messenger
+       * openflow.of_01
+       * openflow.discovery
+       * openflow.debug
+       * openflow.keepalive
+       * misc.pong
+       * misc.arp_responder
+       * misc.packet_dump
+       * misc.dns_spy
+       * misc.of_tutorial
+       * misc.mac_blocker
+       * log
+         * Desabilitando o console de Log
+         * Formatação de Log
+         * Saída de Log
+       * log.color
+       * log.level
+       * samples.pretty_log
+       * tk
     
-* Desenvolvendo seus próprios componentes
-  * O diretório "ext"
-  * A função de "envocar"
-        * Um exemplo simple
-        * Envocação múltipla
-* APIs do POX[c]
+  * Desenvolvendo seus próprios componentes
+       * O diretório "ext"
+       * A função de "envocar"
+          * Um exemplo simples
+          * Envocação múltipla
+          
+<br>
+
+* APIs do POX
   * Trabalhando com o POX: O objeto POX Core
-        * Registrando componentes
+       * Registrando componentes
   * Trabalhando com endereços: pox.lib.addresses
   * O sistema de eventos: pox.lib.revent
-        * Tratando eventos
-           * Tratadores de eventos
-           * Escutando um evento
-           * Setando escutadores automáticos
-        * Criando seu próprio tipo de evento
-        * Levantando eventos
+       * Tratando eventos
+          * Tratadores de eventos
+          * Escutando um evento
+          * Setando escutadores automáticos
+       * Criando seu próprio tipo de evento
+       * Levantando eventos
   * Trabalhando com pacotes: pox.lib.packet
-        * Ethernet (ethernet)
-        * IP versão 4 (ipv4)
-        * TCP (tcp)
-           * tcp_opt class
-        * Exemplo: Mensagens ARP
+       * Ethernet (ethernet)
+       * IP versão 4 (ipv4)
+       * TCP (tcp)
+          * tcp_opt class
+       * Exemplo: Mensagens ARP
   * Threads, Tasks, e Timers: pox.lib.recoco
-        * Executando códigos no futuro com um Timer
+       * Executando códigos no futuro com um Timer
   * Trabalhando com sockets: ioworker
+  
+  <br>
+  
 * OpenFlow no POX
   * Eventos OpenFlow : Respondendo aos Switches
-        * ConnectionUp
-        * ConnectionDown
-        * PortStatus
-        * FlowRemoved
-        * Statistics Events
-        * PacketIn
-        * ErrorIn
-        * BarrierIn
+       * ConnectionUp
+       * ConnectionDown
+       * PortStatus
+       * FlowRemoved
+       * Statistics Events
+       * PacketIn
+       * ErrorIn
+       * BarrierIn
   * Mensagens OpenFlow
-        * ofp_packet_out - Enviando pacotes apartir do switch
-        * ofp_flow_mod - Modificação da tabela de fluxo
-           * Exemplo: Instalando uma entrada na tabela
-           * Exemplo: Limpando tableas em todos os switches
-        * ofp_stats_request - Requisitando estatísticas de todos os switches
-           * Exemplo - Estatísticas de fluxo Web
+       * ofp_packet_out - Enviando pacotes apartir do switch
+       * ofp_flow_mod - Modificação da tabela de fluxo
+          * Exemplo: Instalando uma entrada na tabela
+          * Exemplo: Limpando tableas em todos os switches
+       * ofp_stats_request - Requisitando estatísticas de todos os switches
+          * Exemplo - Estatísticas de fluxo Web
   * Estrutura de combinação
-           * Definir uma combinação apartir de um pacote existente
+       * Definir uma combinação apartir de um pacote existente
   * Ações OpenFlow
-           * Output
-           * Enqueue
-           * Setar ID de VLAN
-           * Setar prioridade de VLAN
-           * Setar endereço Ethernet de origem ou destino
-           * Setar endereço IP de origem ou destino
-           * Setar tipo de serviço IP
-           * Setar porta de origem ou destino TCP/UDP
+       * Output
+       * Enqueue
+       * Setar ID de VLAN
+       * Setar prioridade de VLAN
+       * Setar endereço Ethernet de origem ou destino
+       * Setar endereço IP de origem ou destino
+       * Setar tipo de serviço IP
+       * Setar porta de origem ou destino TCP/UDP
   * comunicando com um Datapath (Switch)
-           * Objetos Connection
-           * Exemplo: Enviando um FlowMod
-           * Exemplo: Enviando um PacketOut
+       * Objetos Connection
+       * Exemplo: Enviando um FlowMod
+       * Exemplo: Enviando um PacketOut
+       
+<br>
+
 * Ferramentas de terceiros, Tutoriais, Etc.
    * POXDesk: Uma interface gráfica web para o POX
    * Tutorial OpenFlow
    * Tutorial Switch OpenFlow
    * Exemplo de Coletor de estatísticas de fluxo
 * Convenções de codificação
+
+<br>
+
 * FAQs
    * Como posso mudar a porta Openflow 6633?
    * Como posso ter algum componente iniciando automaticamente toda vez que rodar o POX?
@@ -112,7 +124,6 @@
    * Como posso estabelecer comunicação entre os componentes?
    * Como posso usar o POX com o Mininet?
    * Meu código não está funcionando! Podem me ajudar?
-
 
 
 
@@ -140,9 +151,9 @@ A melhor maneira para trabalhar com o POX é utilizar um repositório git. Você
 POX está hospedado no github. Se pretende fazer modificações no POX em si, você pode criar seu repositório próprio no github atraves da página do repositório POX. Se apenas deseja obter rapidamente para executar ou só brincar com, você pode simplesmente criar uma cópia local.
 
 
-$ git clone http://github.com/noxrepo/pox
+`$ git clone http://github.com/noxrepo/pox
 $ cd pox
-
+`
 
  
 Selecionando um branch/ versão
@@ -152,17 +163,17 @@ O repositório POX possui várias versões. Especificamente, tem ao menos uma ve
 No momento em que este é escrito, o ramo ativo é chamado betta. Para usar o ramo de betta, basta dar uma olhada após a clonagem do repositório:
 
 
-~$ git clone http://github.com/noxrepo/pox
+`~$ git clone http://github.com/noxrepo/pox
 ~$ cd pox
 ~/pox$ git checkout betta
-
+`
 
 Suporte PyPy
 Embora não seja tão fortemente testado como o interpretador Python normal, é um objetivo do POX rodar bem em tempo de execução do Python PyPy. Há duas vantagens nisso. Primeiro, PyPy geralmente é um pouco mais rápido que CPython. Segundo, é facilmente portátil - voce pode facilmente empacotar POX e PyPy em uma única tarball e te-los pronto para rodar.
 Você pode é claro, baixar, instalar e invocar PyPy do modo usual. No Mac OS e no Linux, contudo, POX também suporta um método muito simples: Baixe a última tarball PyPy para o seu SO, e descompactá-lo em uma pasta chamada "PyPy" ao lado pox.py. Depois é só executar pox.py como de costume (./pox.py), e ele deve usar PyPy em vez de CPython.
 
 
-Chamando o  POX
+##Chamando o  POX
 
 
 POX é chamado executando pox.py. POX tem alguns argumentos opcionais que podem ser passados via linha de comando, que podem ser usados no começo da linha de comando:
@@ -177,25 +188,25 @@ Opção               Significado
 Mas rodar o POX somente não faz muita coisa - as funcionalidades do POX são providas pelos seus componentes (o POX vem com componentes úteis, mas o público alvo do POX são as pessoas que querem desenvolver elas mesmas seus componentes). Os componentes são especificados na linha de comando após todas as opções listadas acima. Um exemplo de um componente POX é o forwarding.l2_learning. Este componente cria um switch OpenFlow que se comporta de forma similar a um learning switch L2. Para rodar esse componente, você precisa simplesmente precisa colocar o seu nome na linha de comando após todas as opções do POX:
 
 
-./pox.py --no-cli forwarding.l2_learning
-
+`./pox.py --no-cli forwarding.l2_learning
+`
 
 Você pode especificar vários componentes na linha de comando. Nem todos os componentes trabalham bem juntos, mas alguns conseguem. Ate mais que isso, alguns componentes dependem de outros componentes, dessa forma, é necessário que você especifique mais de um componentes. Por exemplo, você pode rodar o servidor web POX juntamente com o l2_learning:
 
 
-./pox.py --no-cli forwarding.l2_learning web.webcore
-
+`./pox.py --no-cli forwarding.l2_learning web.webcore
+`
 
 Alguns componentes possuem argumentos. Esses devem ser especificados após o nome do componente e (como os argumentos do POX) precedidos de dois hiféns. Por exemplo, l2_learning tem um modo chamado "transparent" onde os switchs vão rotear ate mesmos os pacotes que seriam usualmente descartados (como as mensagens LLDP), e o número da porta do servidor web pode ser alteradas do padrão (8000) para uma porta qualquer. Por exemplo:
 
 
-./pox.py --no-cli forwarding.l2_learning --transparent web.webcore --port=8888
-
+`./pox.py --no-cli forwarding.l2_learning --transparent web.webcore --port=8888
+`
 
 (Se você está começando a pensar que as linhas de comando podem ficar um pouco longas e complexas, há uma solução: escreva um componente simples responsável apenas por chamar outros componentes.)
 
 
-Components in POX
+##Components in POX
 When we talk about components in POX, what we really mean is something that we can put on the POX command line as described in "Invoking POX".  In the following sections, we discuss some of the components that come with POX and how you can go about creating your own.
 
 
@@ -289,16 +300,20 @@ Disabling the Console Log
 You can disable POX's "normal" log using:
 
 
-./pox.py log --no-default
+`./pox.py log --no-default
+`
+
 Log Formatting
 Please see the documentation on Python's LogRecord attributes for details on log formatting.  As a quick example, you can add timestamps to your log as follows:
 
 
-./pox.py log --format="%(asctime)s: %(message)s"
-Or with simpler timestamps:
+`./pox.py log --format="%(asctime)s: %(message)s"
+
+`Or with simpler timestamps:
 
 
-./pox.py log --format="[%(asctime)s] %(message)s" --datefmt="%H:%M:%S"
+`./pox.py log --format="[%(asctime)s] %(message)s" --datefmt="%H:%M:%S"`
+
 See the samples.pretty_log component for another example (and, particularly, for an example that uses POX's color logging extension).
 
 
@@ -320,15 +335,20 @@ HTTP    HTTPHandler - Outputs to a web server via GET or POST
 To use these, simply specify the Name, followed by a comma-separated list of the positional arguments for the handler Type.  For example, FileHandler takes a file name, and optionally an open mode (which defaults to append), so you could use:
 
 
-./pox.py log --file=pox.log
+`./pox.py log --file=pox.log
+
+`
 Or if you wanted to overwrite the file every time:
 
+`./pox.py log --file=pox.log,w
 
-./pox.py log --file=pox.log,w
+`
 You can also use named arguments by prefacing the entry with a * and then using a comma-separated list of key=value pairs.  For example:
 
 
-./pox.py log --*TimedRotatingFile=filename=foo.log,when=D,backupCount=5
+`./pox.py log --*TimedRotatingFile=filename=foo.log,when=D,backupCount=5
+`
+
 log.color
 The log.color module colorizes the log when possible.  This is actually pretty nice, but getting the most out of it takes a bit more configuration – you might want to take a look at samples.pretty_log.
 
@@ -348,15 +368,21 @@ DEBUG
 POX's default level is INFO.  To set a different default (e.g., a different level for the "root" of the logger hierarchy):
 
 
-./pox.py log.level --WARNING
+`./pox.py log.level --WARNING
+`
+
 If you are trying to debug a problem with OpenFlow connections, however, you may want to turn up the verbosity of OpenFlow-related logs.  You can adjust all OpenFlow-related log messages like so:
 
 
-./pox.py log.level --WARNING --openflow=DEBUG
+`./pox.py log.level --WARNING --openflow=DEBUG
+`
+
 If this leaves you with too many DEBUG level messages from openflow.discovery which you are not interested in, you can then turn it down specifically:
 
 
-./pox.py log.level --WARNING --openflow=DEBUG --openflow.discovery=INFO
+`./pox.py log.level --WARNING --openflow=DEBUG --openflow.discovery=INFO
+`
+
 samples.pretty_log
 This simple module uses log.color and a custom log format to provide nice, functional log output on the console.
 
@@ -403,7 +429,9 @@ Multiple Invocation
 Now what if we were to try the following commandline?
 
 
-./pox.py foo --bar=1 foo --bar=2
+`./pox.py foo --bar=1 foo --bar=2
+`
+
 You might expect to see:
 
 
@@ -412,8 +440,11 @@ foo: 2 eggs True
 Instead, however, you get an exception.  POX, by default, only allows components to be invoked once.  However, a simple change to your launch() function allows multiple-invocation:
 
 
-def launch (bar, baz = "eggs", spam = True, __INSTANCE__ = None):
+`def launch (bar, baz = "eggs", spam = True, __INSTANCE__ = None):
   print "foo:", bar, baz, spam
+`  
+  
+  
 If you try the above commandline again, this time it will work.  Adding the __INSTANCE__ parameter both flags the function as being multiply-invokable, and also gets passed some information that can be useful for some modules that are invoked multiple times.  Specifically, it's a tuple containing:
 
 
@@ -429,9 +460,7 @@ You might also wish to examine the minimal component given in section "OpenFlow 
 TODO: Someone should write a lot more about developing components.
 
 
-API’s do POX
-
-
+##API’s do POX
 
 
 POX contém um número de APIs para ajudá-lo a desenvolver aplicações de controle de rede. Aqui, nós tentamos descrever algumas delas. Isso certamente não é exaustivo, então sinta-se à vontade para contribuir.
@@ -447,8 +476,8 @@ A maior vantagem dessa abordagem é que as dependendências entre os componentes
 Muitos módulos no POX vão querer acessar o core object. Por convensão, isso é feito importando core object, so seguinte modo:
 
 
-from pox.core import core
-
+`from pox.core import core
+`
 
 TODO: Write more about this!
 
@@ -461,7 +490,7 @@ como mencionado acima, pode ser conveniente para um componente “registrar” u
 
 core.register() recebe dois argumento. O segundo é o objeto que queremos no core. O primeiro é o nome que queremos usar para isso. Aqui temos um exemplo de um componente simples com uma função launch() que registra esse componente como core.thing:
  
-class MyComponent (object):
+  class MyComponent (object):
   def __init__ (self, an_arg):
         self.arg = an_arg
         print "MyComponent instance registered with arg:", self.arg
@@ -471,13 +500,12 @@ class MyComponent (object):
         print "MyComponent with arg:", self.arg
 
 
-
-
 def launch ():
   component = MyComponent("spam")
   core.register("thing", component)
   core.thing.foo() # prints "MyComponent with arg: spam"
-
+  
+  
 
 No caso de, por exemplo, funções de execução que podem ser invocadas múltiplas vezes, você pode querer só registrar um objeto uma vez. Você pode simplesmente checar se se ocomponente já foi registrado (usando core.hasComponent()), mas isso pode ser feito também com core.registerNew(). Enquanto você passa um objeto específico para core.register(),  você passa uma classe para core.refisterNew(). Se o componente em questão já foi registrado, registerNew() não faz nada.
 
@@ -646,13 +674,13 @@ Levantando eventos
 Para levantar um evento de tal modo que os escutadores sejam notificados, você precisa chamar raiseEvent n oobjeto que publica o evento:
 
 
-# Uma forma de fazer isso
+`# Uma forma de fazer isso
 chef.raiseEvent(SpamStarted("Generic"))
+`
 
-
-# Outra forma (ligeiramente preferível)
+`# Outra forma (ligeiramente preferível)
 chef.raiseEvent(SpamStarted, "Generic")
-
+`
 
 (A segunda maneira é levemente preferível por que se não ouver qualquer escutar, ela impede a criação do objeto do evento)
 
@@ -1345,7 +1373,9 @@ import pox.openflow.libopenflow_01 as of
 log = core.getLogger("WebStats")
 
 
-# When we get flow stats, print stuff out
+`# When we get flow stats, print stuff out
+`
+
 def handle_flow_stats (event):
   web_bytes = 0
   web_flows = 0
@@ -1356,11 +1386,15 @@ def handle_flow_stats (event):
   log.info("Web traffic: %s bytes over %s flows", web_bytes, web_flows)
 
 
-# Escutar status de fluxo
+`# Escutar status de fluxo
+`
+
 core.openflow.addListenerByName("FlowStatsReceived", handle_flow_stats)
 
 
-# Requisitar de fato status de fluxo de todos os switches
+`# Requisitar de fato status de fluxo de todos os switches
+`
+
 for con in core.openflow.connections: # make this _connections.keys() for pre-betta
   con.send(of.ofp_stats_request(body=of.ofp_flow_stats_request()))
 
@@ -1396,7 +1430,7 @@ Atributos podem ser especificados tanto sobre um objeto como durante sua inicial
 
 
 my_match = of.ofp_match(in_port = 5, dl_dst = EthAddr("01:02:03:04:05:06"))
-#.. ou ..
+`#.. ou ..`
 my_match = of.ofp_match()
 my_match.in_port = 5
 my_match.dl_dst = EthAddr("01:02:03:04:05:06")
@@ -1830,14 +1864,14 @@ POX também tem um mecanismo alternativo, que é melhor descrito na sessão Trab
 Use a função de controlador remoto. Por exemplo, se você está rodando POX na mesma máquina que Mininet:
 
 
-mn --topo=linear --mac --controller=remote
-
+`mn --topo=linear --mac --controller=remote
+`
 
 Umna configuração comum é rodar o Mininet em uma máquina virtual e o POX no seu ambiente de hospedeiro. Nesse caso, aponte o Mininet para o endereço IP da máquina hospedeira. Se você estiver usando o VirtualBox e um “Host-only Adpter”, esse é o endereço atribuído ao adaptador virtual no VirtualBox (i.e., vboxnet0). Por exemplo:
 
 
-mn --topo=linear --mac --controller=remote --ip=192.168.56.1
-
+`mn --topo=linear --mac --controller=remote --ip=192.168.56.1
+`
 
 Estou vendo múltiplas mensagens de packet_in e encaminhamento não está funcionando; o que que ouve?
 Esse problema é frequentemente visto ao usar um dos componentes de encaminhamento “learning” (l2_learning, l2_multi, etc.) em uma topologia em malha ou outro com um loop. Esses componentes de encaminhamento não tentam trabalhar em uma topologia com loops. 
@@ -1845,30 +1879,41 @@ Esse problema é frequentemente visto ao usar um dos componentes de encaminhamen
 
 O component spanning_tree component tem como objetivo ser uma solução henérica para esse problema, logo, voc}e pode tentar executá-lo tmabém. Isso pode ser útil também para evitar broadcasts até que discovery tenha tempo para descobrir toda a topologia. Alguns componentes (assim como l2_learning) tem a opção de forçar isso.
 
+Estou usando o switch de referência (ou o Pantou) e os switches ficam se diconectando. Ajuda?
+A resposta curta é que você rodou o componente openflow.keepalive tmabém. Veja a descrição desse componente acima para maiores informações.
 
 
-
-   * Meu código não está funcionando! Podem me ajudar?
+###Meu código não está funcionando! Podem me ajudar?
 
 
 Possivelmente. Há algumas coisas que podem te fornecer uma auto ajuda. Se nenhum desses modos funcionar ou se aplicar, há alguns coisas que você pode fazer para nos ajudar a te ajudar. Aqui há algumas coisas que você pode tentar: 
 
 
-Leia os logs. Se os logs não parecem dizem algo útil, tente os ler em um nível mais baixo, como no nível DEBUG. Dessa forma, você receberá todos as mansagens de log. Faça  isso adicionando log.level --DEBUG à sua linha de comando. Veja a sessão do componente log.level para maiores informaçõessobre ajustes de níveis de log.
-Observe o tráfego Openflow. Se você n]ao estiver recebendo qualquer evento qeu você acha que deveria, ou acha que está enviando ,mensagens mas os switches não parecem estar respondendo à elas, ou qualquer outra coisa onde você imagine que possa haver um ruptura na comunicação entre switches e o POX, pode lhe ser útil olhar o que de fato foi “jogado nos fios”.   
+1. Leia os logs. Se os logs não parecem dizem algo útil, tente os ler em um nível mais baixo, como no nível DEBUG. Dessa forma, você receberá todos as mansagens de log. Faça  isso adicionando log.level --DEBUG à sua linha de comando. Veja a sessão do componente log.level para maiores informaçõessobre ajustes de níveis de log.
+
+2. Observe o tráfego Openflow. Se você n]ao estiver recebendo qualquer evento qeu você acha que deveria, ou acha que está enviando ,mensagens mas os switches não parecem estar respondendo à elas, ou qualquer outra coisa onde você imagine que possa haver um ruptura na comunicação entre switches e o POX, pode lhe ser útil olhar o que de fato foi “jogado nos fios”.   
 Há um OpenFlow dissector para o Wireshark (você pode ir atrás no Google). Você pode tanto rodar como de costume, ou pode usar o componente POX's openflow.debug para gerar traces sintéticos que mostram exatamente o que o POX pensa ter visto- uma mensagem por “pacote” sintético (o que torna mais fácil para o Wireshark ouvir) 
 
+3. Execute uma versão mas nova. Particularmente, se você está executando uma versão de lançamento, você pode considerar usar a versãodo branch ativo. Enquanto branches ativos podem conter novos problemas, eles também consertam problemas antigos! Veja “Selecionando um Branch/ Versão” para maiores informações.
 
-Execute uma versão mas nova. Particularmente, se você está executando uma versão de lançamento, você pode considerar usar a versãodo branch ativo. Enquanto branches ativos podem conter novos problemas, eles também consertam problemas antigos! Veja “Selecionando um Branch/ Versão” 
-Run a newer version.  Particularly, if you are running a release branch, you might think about running the active branch instead.  While active branches may contain new problems, they also fix old ones!  See the "Selecting a Branch / Version" section for more information.
-Search the mailing list archive.  This would be more helpful if it weren't so flaky.  Sorry about that, hopefully we'll get around to fixing it before too long!
-If none of those work, you might try posting to the pox-dev mailing list (sign up at http://www.noxrepo.org/community/mailing-lists/).  When you do, you'll probably get better results the more you can do the following:
+4. Procure na lista de email. Isso vai seria de melhor ajuda se ela não fosse tão bagunçada.
+Desculpe por isso. Esperamos contronar os problemas e arrumar isso o quanto antes.
+
+Se nada disso adiantar, você pode tentar postar na lista de discussão do pox-dev (se inscreva em http://www.noxrepo.org/community/mailing-lists/). Quando fizer isso,você provavelmente vai obter melhores resultados procedendo assim:
 
 
-Post the commandline with which you invoked POX.
-Post the POX log.  It's probably a good idea to post them at DEBUG level.  Even if you didn't see anything in the log, it may be helpful to someone else.  The first part of the log (before the Up message) is especially useful, as it tells which operating system and Python interpreter you are running, and many components announce themselves.  If you don't post this, you might at least try to include some of this information yourself.
-Post which version of POX you are using.  Did you just do a git clone http://github.org/noxrepo/pox, or did you switch branches?  Did you do this recently or are you potentially using an older version?
-Post what kind of switches you are using.  Are you running POX with Mininet?  Which version?  What commandline did you use to invoke Mininet?  If you're running with hardware switches, what kind?  If you're running with a software switch, which one and which version?
-Post code which illustrates the problem.  A minimal example is great, but anything is better than nothing.
-Post what you've tried already.  Hopefully you've tried to address the issue yourself.  What have you tried and what were the results?
-Doing the above makes it easier for people to help you, and also potentially saves time – if you don't do the things mentioned above, it's quite possible that the first suggestions you get from the mailing list will be to try the things mentioned above!
+1. Poste a linha de comando com qual você chamou o POX.
+
+2. Poste o log. Pode ser uma boa idéia postar em nível de DEBUG. Mesmo que você não tenha visto nada no log, pode ser útil para outra pessoa. A primeira parte do log (antes da mensagem de UP) é especialmente útil, uma vez que ela diz qual sistema opracional e interpretador você está usando, e informaçoesde demais componentes. Se você não postar isso, você pode tentar ao menos incluir algumas dessas informações por conta própria. 
+
+3. Poste qual versão do POX você está usando. Você clonou do repositório http://github.org/noxrepo/pox, ou você alternou entre branches? Você fez isso recentemente ou você pode estar usando uma versão mais antiga? 
+
+4. Poste qual tipo de switch você está usando. Você estpá rodando POX com o Mininet? Qual versão? Quais comandos você está usadno para envocar o Mininet?
+Se você está rodando em switches de hardware, qual tipo? Se você está rodando em switches de sofware, qual e qual versão?
+
+5. Poste código que ilustre o problema. Um exemplo mínimo está ótimo, mas qualquer coisa é melhor que nada.
+
+6. Poste o que você já tentou até agora. Com sorte você mesmo pode já ter apontado o problema. O que você já tentou e qual foi o resultado?
+
+Fazendo o que foi dito acima, torna bemmais fácil para as pessoas te ajudarem e você potencialmene economiza tempo - se você não fizer o que foi dito acima, é bem provável que as primeiras sugestões que você receberá da lista será fazer algo que foi dito anteriomente aqui! 
+
