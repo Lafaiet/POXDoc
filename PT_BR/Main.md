@@ -1316,10 +1316,14 @@ See section of 5.3.3 of OpenFlow 1.0 spec. This class is defined in pox/openflow
 
 
 Exemplo: Installing a table entry
+
+```
 # Traffic to 192.168.101.101:80 should be sent out switch port 4
 
 
+
 # One thing at a time...
+```
 msg = of.ofp_flow_mod()
 msg.priority = 42
 msg.match.dl_type = 0x800
@@ -1335,6 +1339,9 @@ self.connection.send( of.ofp_flow_mod( action=of.ofp_action_output( port=4 ),
                                            match=of.ofp_match( dl_type=0x800,
                                                                nw_dst="192.168.101.101",
                                                                tp_dst=80 )))
+```
+
+```
 Exemplo: Clearing tables on all switches
 # create ofp_flow_mod message to delete all flows
 # (note that flow_mods match all flows by default)
@@ -1353,6 +1360,8 @@ class ofp_stats_request (ofp_header):
         self.type = None # Try to guess
         self.flags = 0
         self.body = b''
+```
+
 type (int) - The type of stats request (e.g., OFPST_PORT).  Default is to try to guess based on body.
 flags (int) - No flags are defined in OpenFlow 1.0.
 body (flexible) - The body of the stats request.  This can be a raw bytes object, or a packable class (e.g., ofp_port_stats_request).
@@ -1368,26 +1377,7 @@ Request the flow table from a switch and dump info about web traffic.  This exam
 
 See the Statistics Events section for more info.
 
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
+```
 import pox.openflow.libopenflow_01 as of
 log = core.getLogger("WebStats")
 
@@ -1416,7 +1406,7 @@ core.openflow.addListenerByName("FlowStatsReceived", handle_flow_stats)
 
 for con in core.openflow.connections: # make this _connections.keys() for pre-betta
   con.send(of.ofp_stats_request(body=of.ofp_flow_stats_request()))
-
+```
 
 Estrutura de combinação
 
