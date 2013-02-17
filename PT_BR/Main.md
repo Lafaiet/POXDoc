@@ -1786,9 +1786,7 @@ Membros “privados” (que você não quer que outros mexam explicitamente ) de
 A palavras chave para variável “catch-all” é chamada kw (contrariando a convensão do Python de kwargs) 
 
 
-FAQs
-
-
+##FAQs
 
 
 * Como posso mudar a porta Openflow 6633?
@@ -1801,6 +1799,7 @@ Se você ligar o modo verboso, você verá que é omódulo openflow.of_01 que es
 
 
    * Como posso ter algum componente iniciando automaticamente toda vez que rodar o POX?
+
 A resposta curta é que não há um modo suportado para fazer isso. Contudo, é bem simples somente criar um pequeno componente que lança qualquer componente que você queira.
 
 
@@ -1837,6 +1836,7 @@ def launch ():
 
 
    * Como posso fazer os switches enviarem um pacote com payload completo para o controlador?
+
 POr padrão, quando um pacotes não se encaixa em nenhuma entrada na tabela de fluxo, ele é encaminhado para o controlador. No POX, esse padrão é OFP_DEFAULT_MISS_SEND_LEN,  que é 128. Isso é provavelmente suficiente para, e.g., ethernet, IP e cabeçalhos TCP... mas provavelmente não suficiente para pacotes completos. Se você quizer inspecionar payloads de pacotes completos, você tem duas opções:
 
 
