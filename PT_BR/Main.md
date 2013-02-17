@@ -1286,32 +1286,22 @@ class ofp_flow_mod (ofp_header):
 ```
 
 * cookie (int) - identificador para essa regra de fluxo. (opcional)
-
 * command (int) - Um dos seguintes valores:
-
   * OFPFC_ADD - adiciona uma regra ao switch (padrão)
   * OFPFC_MODIFY - modifica qualquer regra combinante
   * OFPFC_MODIFY_STRICT - modifica regras com valores wildcards estritos
   * OFPFC_DELETE - deleta todas as regras combinantes
   * OFPFC_DELETE_STRICT - deleta regras com valores wildcards estritos
 * idle_timeout (int) - regra irá expirar se não recebe qualquer pacote qeu combine com ela em 'idle_timeout' segundos. Um valor OFP_FLOW_PERMANENT significa que não há qualquer idle_timeout (o padrão).
-
 * hard_timeout (int) - regra expirará após'hard_timeout' segundos. Um valor OFP_FLOW_PERMANENT quer dizer que ela nunca expirará (o padrão)
-
 * priority (int) - a prioridade com que a regra combinará, quanto maior maior a prioridade. Note: combinações exatas terão maiores prioridades.
-
 * buffer_id (int) - um buffer no switch que a nova regra será aplicada. Use None para nenhum. Sem significado quando deleta-se regras.
-
 * out_port (int) - esse campo é usado para combinar comando de deletar. OFPP_NONE pode ser usando para indicar que não háqualquer restrição.
-
 * flags (int) - um dos seguintes valores:
-
   * OFPFF_SEND_FLOW_REM - envia uma mensagem de regra removida ao controlador quando a regra expira
   * OFPFF_CHECK_OVERLAP - checa se há sobreposição de regras ao instalar. Se ouver, um erro é enviado ao controlador
   * OFPFF_EMERG - Considere isso como uma regra emergencial e só use quando a conexão com o swuitch é perdida
-
 * actions (list) - ações são definidas abaixo, cada objeto de açao desejado é adicionado a lista e são executados em ordem
-
 * match (ofp_match) - a estrutura de combinação para as regras (veja abaixo)
 
 Veja a sessão de 5.3.6 para a especificação 1.0 do OpenFlow. Essa classe é definida em pox/openflow/libopenflow_01.py linha 1831.
@@ -1366,9 +1356,7 @@ class ofp_stats_request (ofp_header):
 ```
 
 * type (int) - o tipo de requisição de status (e.g., OFPST_PORT).  Padrão é tentar adicinhar baseado no corpo.
-
 * flags (int) - Nenhuma flag é definida no OpenFlow 1.0.
-
 * body (flexible) - O corpo da requisição de status.  Isso pode ser um objeto puro em bytes, ou uma classe de empacotamento(e.g., ofp_port_stats_request).
 
 Veja a sessão 3.5.5 da especificação do OpenFlow para maiores informaçoes acerca dessa estrutura e de cada tipo estatística individualmente (port stats, flow stats, aggregate flow stats, table stats, etc.). Essa classe é definida em pox/openflow/libopenflow_01.py
@@ -1764,23 +1752,16 @@ Flow Statistics Collector Exemple (flow_stats.py) - Esse módulo coleta estatís
 
 
 
+##Convenções de codificação
 
-O guia de estilo de codificação para Python 
-Convenções de codificação (The Style Guide for Python Code (AKA PEP 8)) destaca algumas convenções para desenvolvimento em Python. É uma boa base, porém POX não objetiva conformidades estritas. Aqui há algumas diretrizes para escrita de código em POX, especialmente se você gostaria de ter algo inserido no código fonte (merged). Note que emalguns casos elas são adições ou diferenciações à PEP 8. Observe também que a recomendação mais importante é que o código seja legível. Outra coisa é que o o repositório não é interiramente conforme com as diretrizes abaixo (envio de modificações (pull requests) são muito bem vindas!).
+O guia de estilo de codificação para Python (The Style Guide for Python Code (AKA PEP 8)) destaca algumas convenções para desenvolvimento em Python. É uma boa base, porém POX não objetiva conformidades estritas. Aqui há algumas diretrizes para escrita de código em POX, especialmente se você gostaria de ter algo inserido no código fonte (merged). Note que emalguns casos elas são adições ou diferenciações à PEP 8. Observe também que a recomendação mais importante é que o código seja legível. Outra coisa é que o o repositório não é interiramente conforme com as diretrizes abaixo (envio de modificações (pull requests) são muito bem vindas!).
 
-
-
-
-Dois espaços para identação 
-Comprimento de linha
-Máximo de 79 caracteres, no entanto 80 não vai nos matar.
-Use juntadores de linha implícitos (e.g. "hanging" parentheses ou colchetes) ao invéz de do caracter de continuação de linha (\) explícitos, ao não ser qeu esse último seja muito estranho.
-
-
-Continue linhas abaixo do parantêse/colchete apropriado (Estilo Lisp)  quando isso funcionar bem. Quando não se pode fazer isso, “minha” preferência é identar um “espaço único”, contudo eu sei que isso deixa muitos programadores de Pythn loucos, então sou exitante ao definir uma regra específica aqui, contanto que isso esteja claro. A regra básica é que deve haver identenção mais ou menos como o usual - i.e., não use dois espaços para linha contínua. Estou cada vez mais usando quatro espaços. 
-
-
-Duas linhas em branco separam partes de alto nível de código com significância estrutural (classes, funções de mais alto nível, etc.). Você pode usar três para separar porções grandes de código (contudo, quando alguém é tentado a fazer isso, é sempre uma boa idéia se perguntar se duas partes grandes de código deveriam estar em arquivos separados). Métodos dentro de classes devem ter uma ou duas, mas devem ser consistentes dentro da classe em particular.
+* Dois espaços para identação 
+* Comprimento de linha
+  * Máximo de 79 caracteres, no entanto 80 não vai nos matar.
+  * Use juntadores de linha implícitos (e.g. "hanging" parentheses ou colchetes) ao invéz de do caracter de continuação de linha (\) explícitos, ao não ser qeu esse último seja muito estranho.
+  * Continue linhas abaixo do parantêse/colchete apropriado (Estilo Lisp)  quando isso funcionar bem. Quando não se pode fazer isso, “minha” preferência é identar um “espaço único”, contudo eu sei que isso deixa muitos programadores de Pythn loucos, então sou exitante ao definir uma regra específica aqui, contanto que isso esteja claro. A regra básica é que deve haver identenção mais ou menos como o usual - i.e., não use dois espaços para linha contínua. Estou cada vez mais usando quatro espaços. 
+* Duas linhas em branco separam partes de alto nível de código com significância estrutural (classes, funções de mais alto nível, etc.). Você pode usar três para separar porções grandes de código (contudo, quando alguém é tentado a fazer isso, é sempre uma boa idéia se perguntar se duas partes grandes de código deveriam estar em arquivos separados). Métodos dentro de classes devem ter uma ou duas, mas devem ser consistentes dentro da classe em particular.
 
 
 Colocar um espaço entre o nome da função e o abre parênteses da lisat de parâmetros. Similarmente para classe e super clase. Isso é: 
@@ -1810,9 +1791,9 @@ A palavras chave para variável “catch-all” é chamada kw (contrariando a co
 
 Se você ligar o modo verboso, você verá que é omódulo openflow.of_01 que escuta conexões. Essa é a dica: é esse componente que precisa ser configurado. Para fazer isso basta passar uma “porta” como argumento para esse componente na linha de comando:
 
-
+```
 ./pox.py openflow.of_01 --port=1234 <outros argumentos de linha de comando>
-
+```
 
    * Como posso ter algum componente iniciando automaticamente toda vez que rodar o POX?
 
@@ -1821,16 +1802,15 @@ A resposta curta é que não há um modo suportado para fazer isso. Contudo, é 
 
 Por exemplo, digamos que que esteja cansado de toda vez ter qeu se lembrar da seguinte linha de comando:
 
-
+```
 ./pox.py log.level --DEBUG samples.pretty_log openflow.keepalive --interval=15 forwarding.l2_pairs
-
+```
 
 Escrevendo o seguinte componente em ext/startup.py, você pode substituir o que foi feito acima por simplesmente:
 
-
+```
 ./pox.py startup
-# Put me in ext/startup.py
-
+# me coloque em ext/startup.py
 
 def launch ():
   from log.level import launch
@@ -1848,7 +1828,7 @@ def launch ():
   from forwarding.l2_pairs import launch
   launch()
 
-
+```
 
 
    * Como posso fazer os switches enviarem um pacote com payload completo para o controlador?
