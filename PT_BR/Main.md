@@ -1471,7 +1471,8 @@ The packet parameter is a parsed packet or ofp_packet_in from which to create th
 Note that you can now set fields of the resultant match object to None if you want a less-than-exact match.
 
 
-OpenFlow Actions
+###OpenFlow Actions
+
 OpenFlow actions are applied to packets that match a rule installed at the datapath. The code snippets found here can be found in libopenflow_01.py in pox/openflow.
 
 
@@ -1599,7 +1600,8 @@ tp_port (short) - the port value to set (< 65534)
 As with the MAC and IP addresses, it may be convenient to use the two factory methods (set_dst() and set_src()) rather than explicitly creating instances of this class.
 
 
-Communicating with a Datapath (Switch)
+###Communicating with a Datapath (Switch)
+
 Connections to datapaths exist in POX in the form of Connection objects.  Connection objects have a variety of events that you can listen to in order to be advised of events related to that particular datapath (in many cases, these are the same as events on the core.openflow object, except those are fired for events on any switch).  Additionally, it can be used to send messages to the datapath.
 
 
@@ -1656,7 +1658,7 @@ connection.send(msg)
 inport é setado como OFPP_NONE por que o pacote foi gerado no controlador e não originado como um pacote no switch.
 
 
-Aplicações de terceiros, tutoriais, Etc.
+##Aplicações de terceiros, tutoriais, Etc.
 
 
 
