@@ -1762,25 +1762,17 @@ O guia de estilo de codificação para Python (The Style Guide for Python Code (
   * Use juntadores de linha implícitos (e.g. "hanging" parentheses ou colchetes) ao invéz de do caracter de continuação de linha (\) explícitos, ao não ser qeu esse último seja muito estranho.
   * Continue linhas abaixo do parantêse/colchete apropriado (Estilo Lisp)  quando isso funcionar bem. Quando não se pode fazer isso, “minha” preferência é identar um “espaço único”, contudo eu sei que isso deixa muitos programadores de Pythn loucos, então sou exitante ao definir uma regra específica aqui, contanto que isso esteja claro. A regra básica é que deve haver identenção mais ou menos como o usual - i.e., não use dois espaços para linha contínua. Estou cada vez mais usando quatro espaços. 
 * Duas linhas em branco separam partes de alto nível de código com significância estrutural (classes, funções de mais alto nível, etc.). Você pode usar três para separar porções grandes de código (contudo, quando alguém é tentado a fazer isso, é sempre uma boa idéia se perguntar se duas partes grandes de código deveriam estar em arquivos separados). Métodos dentro de classes devem ter uma ou duas, mas devem ser consistentes dentro da classe em particular.
-
-
-Colocar um espaço entre o nome da função e o abre parênteses da lisat de parâmetros. Similarmente para classe e super clase. Isso é: 
+* Colocar um espaço entre o nome da função e o abre parênteses da lisat de parâmetros. Similarmente para classe e super clase. Isso é: 
 “def foo (bar):” e não “def foo(bar):”.
-
-
-Use somente novo estilo de classes. (isso quer dizer herdar de object.)
-
-
-Docstrings:
-Ou atenha-se à """ one line """, ou tenha os abre e fecha """ nas linhas.
-
-
-Nomeando 
-Classes devem geralmente ter Caixa-alta no início
-Métodos e outros atributos devem ser caixa_baixa_com_underscores. Note que isso é atualemente violado por todo lado (no entanto está ficando melhor na versão betta).
-Membros “privados” (que você não quer que outros mexam explicitamente ) devem começar com um underscore. 
-“constantes” devem ser CAIXA_ALTA_COM_UNDERSCORES
-A palavras chave para variável “catch-all” é chamada kw (contrariando a convensão do Python de kwargs) 
+* Use somente novo estilo de classes. (isso quer dizer herdar de object.)
+* Docstrings:
+  * Ou atenha-se à """ one line """, ou tenha os abre e fecha """ nas linhas.
+* Nomeando 
+  * Classes devem geralmente ter Caixa-alta no início
+  * Métodos e outros atributos devem ser caixa_baixa_com_underscores. Note que isso é atualemente violado por todo lado (no entanto está ficando melhor na versão betta).
+  * Membros “privados” (que você não quer que outros mexam explicitamente ) devem começar com um underscore. 
+  * “constantes” devem ser CAIXA_ALTA_COM_UNDERSCORES
+  * A palavras chave para variável “catch-all” é chamada kw (contrariando a convensão do Python de kwargs) 
 
 
 ##FAQs
@@ -1789,18 +1781,18 @@ A palavras chave para variável “catch-all” é chamada kw (contrariando a co
 * Como posso mudar a porta Openflow 6633?
 
 
-Se você ligar o modo verboso, você verá que é omódulo openflow.of_01 que escuta conexões. Essa é a dica: é esse componente que precisa ser configurado. Para fazer isso basta passar uma “porta” como argumento para esse componente na linha de comando:
+Se você ligar o modo verboso, você verá que é o módulo openflow.of_01 que escuta conexões. Essa é a dica: é esse componente que precisa ser configurado. Para fazer isso, basta passar uma “porta” como argumento para esse componente na linha de comando:
 
 ```
 ./pox.py openflow.of_01 --port=1234 <outros argumentos de linha de comando>
 ```
 
-   * Como posso ter algum componente iniciando automaticamente toda vez que rodar o POX?
+* Como posso ter algum componente iniciando automaticamente toda vez que rodar o POX?
 
 A resposta curta é que não há um modo suportado para fazer isso. Contudo, é bem simples somente criar um pequeno componente que lança qualquer componente que você queira.
 
 
-Por exemplo, digamos que que esteja cansado de toda vez ter qeu se lembrar da seguinte linha de comando:
+Por exemplo, digamos que esteja cansado de toda vez ter que se lembrar da seguinte linha de comando:
 
 ```
 ./pox.py log.level --DEBUG samples.pretty_log openflow.keepalive --interval=15 forwarding.l2_pairs
@@ -1831,21 +1823,18 @@ def launch ():
 ```
 
 
-   * Como posso fazer os switches enviarem um pacote com payload completo para o controlador?
+* Como posso fazer os switches enviarem um pacote com payload completo para o controlador?
 
-POr padrão, quando um pacotes não se encaixa em nenhuma entrada na tabela de fluxo, ele é encaminhado para o controlador. No POX, esse padrão é OFP_DEFAULT_MISS_SEND_LEN,  que é 128. Isso é provavelmente suficiente para, e.g., ethernet, IP e cabeçalhos TCP... mas provavelmente não suficiente para pacotes completos. Se você quizer inspecionar payloads de pacotes completos, você tem duas opções:
-
-
-Instalar uma entrada na tabela. Se você instala uma regra na tabela com packet_out to OFPP_CONTROLLER, POX fará com que o switch enviei o pacote completo por padrão (você pode manualmente setar números menores de bytes se você quizer).
+Por padrão, quando um pacotes não se encaixa em nenhuma entrada na tabela de fluxo, ele é encaminhado para o controlador. No POX, esse padrão é OFP_DEFAULT_MISS_SEND_LEN,  que é 128. Isso é provavelmente suficiente para, e.g., ethernet, IP e cabeçalhos TCP... mas provavelmente não suficiente para pacotes completos. Se você quizer inspecionar payloads de pacotes completos, você tem duas opções:
 
 
-Mudar o tamanho do envio. Se você setar ore.openflow.miss_send_len durante a inicialização (antes de todos os switches se conectarem), switches devem enviar essa quantidade de bytes quando um pacote não combinar com nenhuma entrada na tabela.
+1. Instalar uma entrada na tabela. Se você instala uma regra na tabela com packet_out to OFPP_CONTROLLER, POX fará com que o switch envie o pacote completo por padrão (você pode manualmente setar números menores de bytes se você quizer).
+2. Mudar o tamanho do envio. Se você setar core.openflow.miss_send_len durante a inicialização (antes de todos os switches se conectarem), os switches devem enviar essa quantidade de bytes quando um pacote não combinar com nenhuma entrada na tabela.
+
 Dê uma olhada no componente misc.packet_dump para um exemplo.
 
 
-
-
-   * Como posso estabelecer comunicação entre os componentes?
+* Como posso estabelecer comunicação entre os componentes?
 
 
 Componentes são simplesmente pacotes e módulos em Python, então um modo de fazer isso é do mesmo que você comunica entre qualquer módulo em Python - importe um deles e acesse suas variáveis de alto nível e funções.
@@ -1854,35 +1843,36 @@ Componentes são simplesmente pacotes e módulos em Python, então um modo de fa
 POX também tem um mecanismo alternativo, que é melhor descrito na sessão Trabalhando com POX: O objeto POX Core. 
 
 
-   * Como posso usar o POX com o Mininet?
+* Como posso usar o POX com o Mininet?
 
 
 Use a função de controlador remoto. Por exemplo, se você está rodando POX na mesma máquina que Mininet:
 
+```
+mn --topo=linear --mac --controller=remote
+```
 
-`mn --topo=linear --mac --controller=remote
-`
+Uma configuração comum, é rodar o Mininet em uma máquina virtual e o POX no seu ambiente de hospedeiro. Nesse caso, aponte o Mininet para o endereço IP da máquina hospedeira. Se você estiver usando o VirtualBox e um “Host-only Adapter”, esse é o endereço atribuído ao adaptador virtual no VirtualBox (i.e., vboxnet0). Por exemplo:
 
-Umna configuração comum é rodar o Mininet em uma máquina virtual e o POX no seu ambiente de hospedeiro. Nesse caso, aponte o Mininet para o endereço IP da máquina hospedeira. Se você estiver usando o VirtualBox e um “Host-only Adpter”, esse é o endereço atribuído ao adaptador virtual no VirtualBox (i.e., vboxnet0). Por exemplo:
+```
+mn --topo=linear --mac --controller=remote --ip=192.168.56.1
+```
 
+* Estou vendo múltiplas mensagens de packet_in e encaminhamento não está funcionando; o que que ouve?
 
-`mn --topo=linear --mac --controller=remote --ip=192.168.56.1
-`
+Esse problema é frequentemente visto ao usar um dos componentes de encaminhamento “learning” (l2_learning, l2_multi, etc.) em uma topologia em malha ou outra com um loop. Esses componentes de encaminhamento não tentam trabalhar em uma topologia com loops. 
 
-Estou vendo múltiplas mensagens de packet_in e encaminhamento não está funcionando; o que que ouve?
-Esse problema é frequentemente visto ao usar um dos componentes de encaminhamento “learning” (l2_learning, l2_multi, etc.) em uma topologia em malha ou outro com um loop. Esses componentes de encaminhamento não tentam trabalhar em uma topologia com loops. 
+O componente spanning_tree tem como objetivo ser uma solução genérica para esse problema, logo, você pode tentar executá-lo também. Isso pode ser útil também para evitar broadcasts até que o discovery tenha tempo para descobrir toda a topologia. Alguns componentes (assim como l2_learning) tem a opção de forçar isso.
 
+* Estou usando o switch de referência (ou o Pantou) e os switches ficam se diconectando. Ajuda?
 
-O component spanning_tree component tem como objetivo ser uma solução henérica para esse problema, logo, voc}e pode tentar executá-lo tmabém. Isso pode ser útil também para evitar broadcasts até que discovery tenha tempo para descobrir toda a topologia. Alguns componentes (assim como l2_learning) tem a opção de forçar isso.
-
-Estou usando o switch de referência (ou o Pantou) e os switches ficam se diconectando. Ajuda?
-A resposta curta é que você rodou o componente openflow.keepalive tmabém. Veja a descrição desse componente acima para maiores informações.
+A resposta curta é que você rodou o componente openflow.keepalive também. Veja a descrição desse componente acima para maiores informações.
 
 
 ###Meu código não está funcionando! Podem me ajudar?
 
 
-Possivelmente. Há algumas coisas que podem te fornecer uma auto ajuda. Se nenhum desses modos funcionar ou se aplicar, há alguns coisas que você pode fazer para nos ajudar a te ajudar. Aqui há algumas coisas que você pode tentar: 
+Possivelmente. Há algumas coisas que podem te fornecer uma auto ajuda. Se nenhum desses ítens funcionar ou se aplicar, há algumas coisas que você pode fazer para nos ajudar a te ajudar. Aqui há algumas coisas que você pode tentar: 
 
 
 1. Leia os logs. Se os logs não parecem dizem algo útil, tente os ler em um nível mais baixo, como no nível DEBUG. Dessa forma, você receberá todos as mansagens de log. Faça  isso adicionando log.level --DEBUG à sua linha de comando. Veja a sessão do componente log.level para maiores informaçõessobre ajustes de níveis de log.
