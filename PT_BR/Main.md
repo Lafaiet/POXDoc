@@ -3,7 +3,7 @@
 
 
 
-* Instalando o POX
+* [Instalando o POX]: ###Instalando o POX
   * Requisitos
   * Adquirindo o Código
   * Selecionando um Branch / Versão
@@ -127,7 +127,7 @@
 
 
 
-## Instalando o POX
+##Instalando o POX
 
 
 ### Requisitos
