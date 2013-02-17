@@ -1,19 +1,17 @@
 # POX
 
 
-
-
-* [Instalando o POX](#instalando-o-pox)
-  * Requisitos
-  * Adquirindo o Código
-  * Selecionando um Branch / Versão
-  * PyPy Supporte
+* [Instalando o POX](#inst)
+  * [Requisitos](#req)
+  * [Adquirindo o Código](#ac)
+  * [Selecionando um Branch / Versão](#sb)
+  * [PyPy Supporte](#pypy)
     
    <br>
    
-* Chamando o POX
+* [Chamando o POX](#cham)
 <br>	
-* Componentes do POX
+* [Componentes do POX](#comp)
   * Componentes padrão
        * py
        * forwarding.l2_learning
@@ -42,7 +40,7 @@
        * samples.pretty_log
        * tk
     
-  * Desenvolvendo seus próprios componentes
+  * [Desenvolvendo seus próprios componentes](#dev)
        * O diretório "ext"
        * A função de "envocar"
           * Um exemplo simples
@@ -50,7 +48,7 @@
           
 <br>
 
-* APIs do POX
+* [API's do POX](#api)
   * Trabalhando com o POX: O objeto POX Core
        * Registrando componentes
   * Trabalhando com endereços: pox.lib.addresses
@@ -73,7 +71,7 @@
   
   <br>
   
-* OpenFlow no POX
+* [OpenFlow no POX](#of)
   * Eventos OpenFlow : Respondendo aos Switches
        * ConnectionUp
        * ConnectionDown
@@ -108,16 +106,16 @@
        
 <br>
 
-* Ferramentas de terceiros, Tutoriais, Etc.
+* [Ferramentas de terceiros, Tutoriais, Etc.](#etc)
    * POXDesk: Uma interface gráfica web para o POX
    * Tutorial OpenFlow
    * Tutorial Switch OpenFlow
    * Exemplo de Coletor de estatísticas de fluxo
-* Convenções de codificação
+* [Convenções de codificação](#code)
 
 <br>
 
-* FAQs
+* [FAQs](#faq)
    * Como posso mudar a porta Openflow 6633?
    * Como posso ter algum componente iniciando automaticamente toda vez que rodar o POX?
    * Como posso fazer os switches enviarem um pacote com payload completo para o controlador?
@@ -126,10 +124,9 @@
    * Meu código não está funcionando! Podem me ajudar?
 
 
-
+<a id = "inst"></a>
 ##Instalando o POX
-
-
+<a id = "rec"></a>
 ### Requisitos
 
 
@@ -172,7 +169,7 @@ Suporte PyPy
 Embora não seja tão fortemente testado como o interpretador Python normal, é um objetivo do POX rodar bem em tempo de execução do Python PyPy. Há duas vantagens nisso. Primeiro, PyPy geralmente é um pouco mais rápido que CPython. Segundo, é facilmente portátil - voce pode facilmente empacotar POX e PyPy em uma única tarball e te-los pronto para rodar.
 Você pode é claro, baixar, instalar e invocar PyPy do modo usual. No Mac OS e no Linux, contudo, POX também suporta um método muito simples: Baixe a última tarball PyPy para o seu SO, e descompactá-lo em uma pasta chamada "PyPy" ao lado pox.py. Depois é só executar pox.py como de costume (./pox.py), e ele deve usar PyPy em vez de CPython.
 
-
+<a id = "cham"></a>
 ##Chamando o  POX
 
 
@@ -205,8 +202,8 @@ Alguns componentes possuem argumentos. Esses devem ser especificados após o nom
 
 (Se você está começando a pensar que as linhas de comando podem ficar um pouco longas e complexas, há uma solução: escreva um componente simples responsável apenas por chamar outros componentes.)
 
-
-##Components in POX
+<a id = "comp"></a>
+##Componentes no POX
 When we talk about components in POX, what we really mean is something that we can put on the POX command line as described in "Invoking POX".  In the following sections, we discuss some of the components that come with POX and how you can go about creating your own.
 
 
@@ -391,7 +388,8 @@ tk
 This component is meant to assist in building Tk-based GUIs in POX, including simple dialog boxes.  It is quite experimental.
 
 
-Developing your own Components
+<a id = "dev"></a>
+##Desenvolvendo seus próprios componentes
 This section tries to get you started developing your own components for POX.  In some cases, you might find that an existing component does almost what you want.  In these cases, you might start by making a copy of that component and working from there.
 
 
@@ -459,7 +457,7 @@ You might also wish to examine the minimal component given in section "OpenFlow 
 
 TODO: Someone should write a lot more about developing components.
 
-
+<a id = "api"></a>
 ##API’s do POX
 
 
@@ -981,7 +979,7 @@ TODO: Documentation and samples
 
 
 
-
+<a id = "of"></a>
 ##OpenFlow no POX
 
 
@@ -1657,7 +1655,7 @@ connection.send(msg)
 
 inport é setado como OFPP_NONE por que o pacote foi gerado no controlador e não originado como um pacote no switch.
 
-
+<a id = "etc"></a>
 ##Aplicações de terceiros, tutoriais, Etc.
 
 
@@ -1753,7 +1751,7 @@ Preparado por William Emmanuel Yu.
 Flow Statistics Collector Exemple (flow_stats.py) - Esse módulo coleta estatísticas a cada 5 segundos usando um temporizador. Há três formas de estatísticas coletadas: estatus da porta, estatísticas de fluxo e um mostrador de amostra de estatísticas web (similar a um exemplo abaixo). As estatísticas completas de portas e fluxo requerem o módulo pox.openflow.of_json presente na versão betta do POX.
 
 
-
+<a id = "code"></a>
 ##Convenções de codificação
 
 O guia de estilo de codificação para Python (The Style Guide for Python Code (AKA PEP 8)) destaca algumas convenções para desenvolvimento em Python. É uma boa base, porém POX não objetiva conformidades estritas. Aqui há algumas diretrizes para escrita de código em POX, especialmente se você gostaria de ter algo inserido no código fonte (merged). Note que emalguns casos elas são adições ou diferenciações à PEP 8. Observe também que a recomendação mais importante é que o código seja legível. Outra coisa é que o o repositório não é interiramente conforme com as diretrizes abaixo (envio de modificações (pull requests) são muito bem vindas!).
@@ -1776,7 +1774,7 @@ O guia de estilo de codificação para Python (The Style Guide for Python Code (
   * “constantes” devem ser CAIXA_ALTA_COM_UNDERSCORES
   * A palavras chave para variável “catch-all” é chamada kw (contrariando a convensão do Python de kwargs) 
 
-
+<a id = "faq"></a>
 ##FAQs
 
 
