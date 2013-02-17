@@ -1901,5 +1901,5 @@ Se você está rodando em switches de hardware, qual tipo? Se você está rodand
 
 6. Poste o que você já tentou até agora. Com sorte você mesmo pode já ter apontado o problema. O que você já tentou e qual foi o resultado?
 
-Fazendo o que foi dito acima, torna bemmais fácil para as pessoas te ajudarem e você potencialmene economiza tempo - se você não fizer o que foi dito acima, é bem provável que as primeiras sugestões que você receberá da lista será fazer algo que foi dito anteriomente aqui! 
+Fazer o que foi dito acima, torna bem mais fácil para as pessoas te ajudarem e você potencialmente economiza tempo - se você não fizer o que foi dito acima, é bem provável que as primeiras sugestões que você receberá da lista será fazer algo que foi dito anteriomente aqui! 
 
