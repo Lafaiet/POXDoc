@@ -1320,10 +1320,8 @@ Exemplo: Installing a table entry
 ```
 # Traffic to 192.168.101.101:80 should be sent out switch port 4
 
-
-
 # One thing at a time...
-```
+
 msg = of.ofp_flow_mod()
 msg.priority = 42
 msg.match.dl_type = 0x800
@@ -1340,6 +1338,7 @@ self.connection.send( of.ofp_flow_mod( action=of.ofp_action_output( port=4 ),
                                                                nw_dst="192.168.101.101",
                                                                tp_dst=80 )))
 ```
+
 
 ```
 Exemplo: Clearing tables on all switches
