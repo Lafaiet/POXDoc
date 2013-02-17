@@ -1262,8 +1262,10 @@ Se você receber um ofp_packet_in e deseja reenviá-lo, você pode simplesmente 
 Veja a sessão de 5.3.6 para a especificação 1.0 do OpenFlow. Essa classe é definida em pox/openflow/libopenflow_01.py. 
 
 
+
+**ofp_flow_mod - Flow table modification**
+
 ```
-ofp_flow_mod - Flow table modification
 class ofp_flow_mod (ofp_header):
   def __init__ (self, **kw):
         ofp_header.__init__(self)
@@ -1283,44 +1285,44 @@ class ofp_flow_mod (ofp_header):
         self.actions = []
 ```
 
-* cookie (int) - identifier for this flow rule. (optional)
+* cookie (int) - identificador para essa regra de fluxo. (opcional)
 
-* command (int) - One of the following values:
+* command (int) - Um dos seguintes valores:
 
-  * OFPFC_ADD - add a rule to the datapath (default)
-  * OFPFC_MODIFY - modify any matching rules
-  * OFPFC_MODIFY_STRICT - modify rules which strictly match wildcard values.
-  * OFPFC_DELETE - delete any matching rules
-  * OFPFC_DELETE_STRICT - delete rules which strictly match wildcard values.
-* idle_timeout (int) - rule will expire if it is not matched in 'idle_timeout' seconds. A value of OFP_FLOW_PERMANENT means there is no idle_timeout (the default).
+  * OFPFC_ADD - adiciona uma regra ao switch (padrão)
+  * OFPFC_MODIFY - modifica qualquer regra combinante
+  * OFPFC_MODIFY_STRICT - modifica regras com valores wildcards estritos
+  * OFPFC_DELETE - deleta todas as regras combinantes
+  * OFPFC_DELETE_STRICT - deleta regras com valores wildcards estritos
+* idle_timeout (int) - regra irá expirar se não recebe qualquer pacote qeu combine com ela em 'idle_timeout' segundos. Um valor OFP_FLOW_PERMANENT significa que não há qualquer idle_timeout (o padrão).
 
-* hard_timeout (int) - rule will expire after 'hard_timeout' seconds. A value of OFP_FLOW_PERMANENT means it will never expire (the default)
+* hard_timeout (int) - regra expirará após'hard_timeout' segundos. Um valor OFP_FLOW_PERMANENT quer dizer que ela nunca expirará (o padrão)
 
-* priority (int) - the priority at which a rule will match, higher numbers higher priority. Note: Exact matches will have highest priority.
+* priority (int) - a prioridade com que a regra combinará, quanto maior maior a prioridade. Note: combinações exatas terão maiores prioridades.
 
-* buffer_id (int) - A buffer on the datapath that the new flow will be applied to.  Use None for none.  Not meaningful for flow deletion.
+* buffer_id (int) - um buffer no switch que a nova regra será aplicada. Use None para nenhum. Sem significado quando deleta-se regras.
 
-* out_port (int) - This field is used to match for DELETE commands.OFPP_NONE may be used to indicate that there is no restriction.
+* out_port (int) - esse campo é usado para combinar comando de deletar. OFPP_NONE pode ser usando para indicar que não háqualquer restrição.
 
-* flags (int) - One of the following values:
+* flags (int) - um dos seguintes valores:
 
-  * OFPFF_SEND_FLOW_REM - Send flow removed message to the controller when rule expires
-  * OFPFF_CHECK_OVERLAP - Check for overlapping entries when installing. If one exists, then an error is send to controller
-  * OFPFF_EMERG - Consider this flow as an emergency flow and only use it when the switch controller connection is down.
+  * OFPFF_SEND_FLOW_REM - envia uma mensagem de regra removida ao controlador quando a regra expira
+  * OFPFF_CHECK_OVERLAP - checa se há sobreposição de regras ao instalar. Se ouver, um erro é enviado ao controlador
+  * OFPFF_EMERG - Considere isso como uma regra emergencial e só use quando a conexão com o swuitch é perdida
 
-* actions (list) - actions are defined below, each desired action object is then appended to this list and they are executed in order.
+* actions (list) - ações são definidas abaixo, cada objeto de açao desejado é adicionado a lista e são executados em ordem
 
-* match (ofp_match) - the match structure for the rule to match on (see below).
+* match (ofp_match) - a estrutura de combinação para as regras (veja abaixo)
 
-See section of 5.3.3 of OpenFlow 1.0 spec. This class is defined in pox/openflow/libopenflow_01.py line 1831
+Veja a sessão de 5.3.6 para a especificação 1.0 do OpenFlow. Essa classe é definida em pox/openflow/libopenflow_01.py linha 1831.
 
 
-**Exemplo: Installing a table entry**
+**Exemplo: Instalando uma entrada na tabela**
 
 ```
-# Traffic to 192.168.101.101:80 should be sent out switch port 4
+# Tráfego para 192.168.101.101:80 deve ser direcionado para a porta 4 do switch
 
-# One thing at a time...
+# uma coisa de cada vez...
 
 msg = of.ofp_flow_mod()
 msg.priority = 42
@@ -1331,7 +1333,7 @@ msg.actions.append(of.ofp_action_output(port = 4))
 self.connection.send(msg)
 
 
-# Same exact thing, but in a single line...
+# mesma coisa, mas com uma só linha...
 self.connection.send( of.ofp_flow_mod( action=of.ofp_action_output( port=4 ),
                                            priority=42,
                                            match=of.ofp_match( dl_type=0x800,
@@ -1341,15 +1343,15 @@ self.connection.send( of.ofp_flow_mod( action=of.ofp_action_output( port=4 ),
 
 
 
-**Exemplo: Clearing tables on all switches**
+**Exemplo: Limpando todas as tabelas de todos os switches**
 
 ```
-# create ofp_flow_mod message to delete all flows
-# (note that flow_mods match all flows by default)
+# criar uma mensagem ofp_flow_mod message para deletar todas as regras
+# (note que essa combinação de flow_mods combinar com todos os fluxos por padrão)
 msg = of.ofp_flow_mod(command=of.OFPFC_DELETE)
 
 
-# iterate over all connected switches and delete all their flows
+# itera sobre todos os switches conectados e deleta todas as regras
 for connection in core.openflow.connections: # _connections.values() before betta
   connection.send(msg)
   log.debug("Clearing all flows from %s." % (dpidToStr(connection.dpid),))
@@ -1363,16 +1365,18 @@ class ofp_stats_request (ofp_header):
         self.body = b''
 ```
 
-type (int) - The type of stats request (e.g., OFPST_PORT).  Default is to try to guess based on body.
-flags (int) - No flags are defined in OpenFlow 1.0.
-body (flexible) - The body of the stats request.  This can be a raw bytes object, or a packable class (e.g., ofp_port_stats_request).
+* type (int) - The type of stats request (e.g., OFPST_PORT).  Default is to try to guess based on body.
+
+* flags (int) - No flags are defined in OpenFlow 1.0.
+
+* body (flexible) - The body of the stats request.  This can be a raw bytes object, or a packable class (e.g., ofp_port_stats_request).
 See section of 5.3.5 of OpenFlow 1.0 spec for more info on this structure and on the individual statistics types (port stats, flow stats, aggregate flow stats, table stats, etc.). This class is defined in pox/openflow/libopenflow_01.py
 
 
 TODO: Show some of the individual stats request/reply types?
 
 
-Exemplo - Web Flow Statistics
+**Exemplo - Web Flow Statistics**
 Request the flow table from a switch and dump info about web traffic.  This example is meant to be run along with, say, the forwarding.l2_learning component.  It can be pasted into the POX interactive interpreter.
 
 
