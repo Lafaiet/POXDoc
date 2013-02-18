@@ -204,192 +204,175 @@ Alguns componentes possuem argumentos. Esses devem ser especificados após o nom
 
 <a id = "comp"></a>
 ##Componentes no POX
-When we talk about components in POX, what we really mean is something that we can put on the POX command line as described in "Invoking POX".  In the following sections, we discuss some of the components that come with POX and how you can go about creating your own.
 
+Quando falamos sobre os componentes dentro do POX, o que realmente queremos dizer é algo que podemos colocar na linha de comando ao chamar o POX, como descrito em “Chamando o  POX”. Nas seções seguintes discutiremos alguns componentes que vem junto com o POX e como você deve proceder para criar o seu próprio.
 
-Stock Components
-POX comes with a number of stock components.  Some of these provide core functionality, some provide convenient features, and some are just Exemplos.  To list a few:
-
+Componentes embutidos
+O POX vem com alguns componentes embutidos. Alguns deles proveem funcionalidades básicas, algumas proveem funcionalidades convenientes e outras são somente exemplos. Abaixo são listadas algumas:
 
 py
-This component causes POX to start an interactive Python interpreter that can be useful for debugging and interactive experimentation.  Before the betta branch, this was the default behavior (unless disabled with --no-cli).  Other components can add functions / values to this interpreter's namespace.
+Este componente faz com que o POX inicialize um interpretador interativo de Python, que pode ser útil para debugar e testes interativos. Antes do beta, este era era executado por padrão (a não ser quando era desabilitado com a opção --no-cli). Outros componentes podem adicionar funções / valores ao namespace deste interpretador.
+
 
 
 forwarding.l2_learning
-This component makes OpenFlow switches act as a type of L2 learning switch.  This one operates much like NOX's "pyswitch" Exemplo, although the implementation is quite different.  While this component learns L2 addresses, the flows it installs are exact-matches on as many fields as possible.  For example, different TCP connections will result in different flows being installed.
-
+Este componente cria switchs OpenFlow que agem como um learning switch L2. Este funciona de forma similar ao exemplo “pyswitch” do NOX, no entanto, a implementação é um pouco diferente. Enquanto esse componente aprende os endereços L2, os fluxos que ele cria coincidem com o maior número de campos possíveis. Por exemplo, diferentes conexões TCP resultam em diferentes fluxos.
 
 forwarding.l2_pairs
-Like l2_learning, this component also makes OpenFlow switches act like a type of L2 learning switch.  However, this one is probably just about the simplest possible way to do it correctly.  Unlike l2_learning, l2_pairs installs rules based purely on MAC addresses.
-
+Como o l2_learning, este componente também cria switchs OpenFlow que agem como um learning switch L2. No entanto, este é provavelmente a forma mais simples de fazer isso de forma correta. Diferente do l2_learning, o l2_pairs cria regras baseadas puramente no endereço MAC.
 
 forwarding.l3_learning
-This component is not quite a router, but it's also definitely not an L2 switch.  It's an L3-switchy-thing.  Perhaps the most useful aspect of it is that it serves as a pretty good example of using POX's packet library to examine and construct ARP requests and replies.
-
+Este componente não é exatamente um roteador, mas definitivamente também não é um switch L2. Ele é um “coisa” que faz switch em L3. Talvez o aspecto mais útil deste componente é que ele serve como um bom exemplo de uso da biblioteca de pacotes do POX para examinar e construir ARP resquests e replies.
 
 forwarding.l2_multi
-This component is can still be seen as a learning switch, but it has a twist compared to the others.  The other learning switches "learn" on a switch-by-switch basis, making decisions as if each switch only had local information.  l2_multi uses openflow.discovery to learn the topology of the entire network: as soon as one switch learns where a MAC address is, they all do.
+Este componente também pode ser visto como um learning switch, mas este é mais flexível comparado aos demais. Os outros learning switchs “aprendem” por switch, ou seja, tomam decisões como se cada switch só tivesse a informação local. O l2_multi utiliza o openflow.discovery para aprender a topologia da rede como um todo, permitindo que assim que um switch saiba onde se encontra um endereço MAC, todos também saibam.
 
 
-openflow.spanning_tree
-This component uses the discovery component to build a view of the network topology, constructs a spanning tree, and then disables flooding on switch ports that aren't on the tree.  The result is that topologies with loops no longer turn your network into useless hot packet soup.
+Note que isto não tem muita relação com o protocolo Spanning Tree. Eles tem objetivos similares, mas fazem isso de forma bem diferente.
 
-
-Note that this does not have much of a relationship to Spanning Tree Protocol.  They have similar purposes, but this is a rather different way of going about it.
-
-
-The samples.spanning_tree component demonstrates this module by loading it and one of several forwarding components.
-
+O componente samples.spanning_tree demonstra o uso desse módulo carregando o mesmo e um dos vários componentes de roteamento.
 
 web.webcore
-The webcore component starts a web server within the POX process.  Other components can interface with it to provide static and dynamic content of their own.
-
+O componente webcore inicia um servidor web dentro do processo do POX. Outros componentes podem se comunicar com esse módulo para disponibilizar conteúdo estático e dinâmico.
 
 messenger
-The messenger component provides an interface for POX to interact with external processes via bidirectional JSON-based messages.  The messenger by itself is really just an API, actual communication is implemented by transports.  Currently, transports exist for TCP sockets and for HTTP.
-
+O componente messenger disponibiliza uma interface para o POX interagir com processos externos via mensagens bidirecionais baseadas em JSON. O messenger é na realidade somente uma API, a comunicação propriamente é implementada por transporte. Atualmente, esse transporte existe para sockets TCP e para HTTP.
 
 openflow.of_01
-This component communicates with OpenFlow 1.0 (wire protocol 0x01) switches.  It is usually started by default (unless you specify the --no-openflow commandline option), but sometimes you want to invoke it manually so that you can change its options (e.g., which interface or port it listens on).
-
+Esse componente comunica com switchs OpenFlow 1.0 (protocolo físico 0x01). E normalmente iniciado por padrão (a não ser que seja especificada a opção --no-openflow via linha de comando), mas as vezes você deseja iniciar-lo manualmente, para permitir que você troque suas opções (por exemplo, para definir qual interface ou porta ele está escutando).
 
 openflow.discovery
-This component sends specially-crafted LLDP messages out of OpenFlow switches so that it can discover the network topology.  It raises events (which you can listen to) when links go up or down.
+Este componente envia mensagens LLDP especialmente construidas para fora dos switchs OpenFlow, permitindo que este avalie a topologia da rede. Este gera eventos (os quais você pode capturar) quando os links levantam ou caem.
 
 
 openflow.debug
-Loading this component will cause POX to create pcap traces containing OpenFlow messages, which you can then load into Wireshark to analyze.  All the headers are synthetic so it's not totally a replacement for actually running tcpdump or Wireshark. It does, however, have the nice property that there is exactly one OpenFlow message in each frame (which makes it easier to look at!).
-
+Carregar esse componente irá fazer com que o POX crie capturas em pcap contendo as mensagens OpenFlow, que você pode depois abrir com o Wireshark para analisar. Todos os cabeçalhos são sintéticos, logo isso não é um substituto completo para o tcpdump ou Wireshark. No entanto, ele tem uma propriedade legal que é ter exatamente uma mensagem OpenFlow por frame (o que torna a leitura bem mais fácil).
 
 openflow.keepalive
-This component causes POX to send periodic echo requests to connected switches.  Some switches will assume that an idle control connection indicates a loss of connectivity to the controller and will disconnect after some period of silence (often not particularly long), and this component can be used to prevent that.  (One could easily argue that if the switches want to disconnect when the connection is idle, it is their responsibility to send echo requests, but arguing won't fix the firmware.)
+Este componente faz com que o POX gere echo requests periódicos para os switchs conectados. Alguns dos switchs vão assumir que uma conexão de controle em estado oscioso indica perda de conectividade para o controlador e por isso, irá desconectar após algum período de silêncio (frequentemente não muito longo), e este componente pode ser usado para prevenir isso. (Alguém pode facilmente argumentar que se o switch quer disconectar uma conexão osciosa, é de responsabilidade dele enviar echo requests, mas argumentar não irá corrigir o firmware.)
 
 
 misc.pong
-The pong component is a sort of silly example which simply watches for ICMP echo requests (pings) and replies to them.  If you run this component, all pings will seem to be successful!  It serves as a simple example of monitoring and sending packets and of working with ICMP.
+O componente pong é um tipo de exemplo bobo que simplesmente espera por ICMP echo requests e responde os mesmos. Se você executar esse componente, todos os pings irão reportar que foram bem sucedidos! Este componente serve como um simples exemplo de como monitorar e enviar pacotes, bem como trabalhar com ICMP.
 
 
 misc.arp_responder
-An ARP utility that can learn and proxy ARPs, and can also answer queries from a list of static entries.
-
+Um utilitário ARP que permite aprender e servir de proxy ARP, também pode responder pedidos usando uma lista estática de entradas.
 
 misc.packet_dump
-A simple component that dumps packet_in info to the log.  Sort of like running tcpdump on a switch.
-
+Um simples componente que imprime a informação packet_in no log. Similar a rodar um tcpdump em um switch.
 
 misc.dns_spy
-This component monitors DNS replies and stores their results.  Other components can examine them by accessing core.DNSSpy.ip_to_name[<ip address>] and core.DNSSpy.name_to_ip[<domain name>].
-
+Este componente monitora respostas do DNS e armazena seus resultados. Outros componentes podem examinar esses resultados acessando core.DNSSpy.ip_to_name[<endereço ip>] e core.DNSSpy.name_to_ip[<nome do domínio>].
 
 misc.of_tutorial
-This component is for use with the OpenFlow tutorial.  It acts as a simple hub, but can be modified to act like an L2 learning switch.
-
+Este componente é para ser utilizado com o tutorial do OpenFlow. Ele age como um simples hub, mas pode ser modificado para agir como um learning switch L2.
 
 misc.mac_blocker
-This component is meant to be used alongside some other reactive forwarding applications, such as l2_learning and l2_pairs.  It pops up a Tkinter-based GUI that lets you block MAC addresses.  It demonstrates using higher-priority events to block PacketIns and making Tkinter-based GUIs in POX.
+Este componente foi feito para ser utilizado juntamente com outra aplicação de roteamento reativo, como l2_learning e l2_pairs. Ele cria um pop up gráfico baseado em Tkinter que permite você bloquear um endereço MAC. Ele demonstra como utilizar eventos de alta prioridade para bloquear PacketIns e como criar elementos gráficos baseados em Tkinter dentro do POX.
 
 
 log
-POX uses Python's logging system, and the log module allows you to configure a fair amount of this through the commandline. For example, you can send the log to a file, change the format of log messages to include the date, etc.
+O POX utiliza o sistema de log do Python, e o módulo de log permite que você configure uma boa parte disso utilizando a linha de comando. Por exemplo, você pode enviar o log para um arquivo, mudar o formato das mensagens de log para incluir data, etc.
 
 
-Disabling the Console Log
-You can disable POX's "normal" log using:
+Desabilitando o console de log
+Você pode desabilitar o log “normal” do POX utilizando:
+
+```
+./pox.py log --no-default
+```
+
+Formatando o log
+Por favor, veja a documentação dos atributos do LogRecord do Python para detalhes sobre como formatar o log. Um exemplo rápido, você pode adicionar marcações de tempo nos seus logs da seguinte maneira:
+
+```
+./pox.py log --format="%(asctime)s: %(message)s"
+```
+
+Ou com marcações de tempo mais simples:
+
+```
+./pox.py log --format="[%(asctime)s] %(message)s" --datefmt="%H:%M:%S"
+```
+
+Para outro exemplo, veja o component samples.pretty_log (particularmente, para um exemplo que utiliza a extensão de log colorido do POX ).
+
+Saída do log
+Mensagens de log são processadas por vários gerenciadores que imprimem o log na tela, salvam-o em um arquivo, enviam-o pela rede, etc. Você pode escrever o seu próprio, mas o Python já vem com alguns, que estão documentados no manual do Python na parte de gerenciadores de log. O POX permite que você configure vários dos gerenciadores embutidos do Python diretamente pela linha de comando; você deve buscar no manual do Python as referências para os argumentos, mas especificamente, o POX permite que você os configure.hon reference for the arguments, but specifically, POX lets you configure:
 
 
-`./pox.py log --no-default
-`
-
-Log Formatting
-Please see the documentation on Python's LogRecord attributes for details on log formatting.  As a quick example, you can add timestamps to your log as follows:
-
-
-`./pox.py log --format="%(asctime)s: %(message)s"
-
-`Or with simpler timestamps:
-
-
-`./pox.py log --format="[%(asctime)s] %(message)s" --datefmt="%H:%M:%S"`
-
-See the samples.pretty_log component for another example (and, particularly, for an example that uses POX's color logging extension).
-
-
-Log Output
-Log messages are processed by various handlers which then print the log to the screen, save it to a file, send it over the network, etc.  You can write your own, but Python also comes with quite a few, which are documented in the Python reference for logging.handlers. POX lets you configure a lot of Python's built-in handlers from the commandline; you should refer to the Python reference for the arguments, but specifically, POX lets you configure:
-
-
-Name    Type
-stderr    StreamHandler for stderr stream
-stdout    StreamHandler for stdout stream
-File    FileHandler for named file
+Nome     Tipo
+stderr     StreamHandler para a saída stderr
+stdout    StreamHandler para a saída stdout
+File    FileHandler para o arquivo a definido como argumento
 WatchedFile    WatchedFileHandler
 RotatingFile    RotatingFileHandler
 TimedRotatingFile    TimedRotatingFileHandler
-Socket    SocketHandler - Sends to TCP socket
-Datagram    DatagramHandler - Sends over UDP
-SysLog    SysLogHandler - Outputs to syslog service
-HTTP    HTTPHandler - Outputs to a web server via GET or POST
-To use these, simply specify the Name, followed by a comma-separated list of the positional arguments for the handler Type.  For example, FileHandler takes a file name, and optionally an open mode (which defaults to append), so you could use:
+Socket    SocketHandler - Envia para o socket TCP
+Datagram    DatagramHandler - Envia utilizando UDP
+SysLog    SysLogHandler - Gera a saída utilizando o serviço do syslog
+HTTP    HTTPHandler - Gera a saída para um servidor web utilizando GET ou POST
+Para utilizar esses argumentos, basta especificar o nome do mesmo seguido pelos argumentos do tipo de saída separados por vírgula. Por exemplo, FileHandler necessita do nome do arquivo, e opcionalmente o modo de abertura do arquivo (que abre por padrão como append), então, você deve utilizar:
 
+```
+./pox.py log --file=pox.log
+```
 
-`./pox.py log --file=pox.log
+Ou, se você quiser que o arquivo seja sobrescrito toda vez:
 
-`
-Or if you wanted to overwrite the file every time:
+```
+./pox.py log --file=pox.log,w
+```
 
-`./pox.py log --file=pox.log,w
+Você também pode utilizar os argumentos nomeados colocando antes do nome do mesmo um ‘*’ e então utilizando uma lista separada por vírgula de pares chave=valor. Por exemplo:
 
-`
-You can also use named arguments by prefacing the entry with a * and then using a comma-separated list of key=value pairs.  For example:
-
-
-`./pox.py log --*TimedRotatingFile=filename=foo.log,when=D,backupCount=5
-`
+```
+./pox.py log --*TimedRotatingFile=filename=foo.log,when=D,backupCount=5
+```
 
 log.color
-The log.color module colorizes the log when possible.  This is actually pretty nice, but getting the most out of it takes a bit more configuration – you might want to take a look at samples.pretty_log.
+O módulo log.color colore o log quando possível. Isto é bem legal, mas para tirar melhor proveito desse recurso, é necessário um pouco de configuração - sugere-se que você olhe o samples.pretty_log.
 
-
-Color logging should work fine out-of-the-box on Mac OS, Linux, and other environments with the real concept of a terminal.  On Windows, you need a colorizer such as colorama.
-
+Colorir o log deve funcionar bem no Mac OS, Linux e outros ambientes com um real conceito de terminal. No Windows, você precisará de um colorizador como o colorama.
 
 log.level
-POX uses Python's logging infrastructure.  Different components each have their own loggers, the name of which is displayed as part of the log message.  Loggers actually form a hierarchy – you might have a "foo" logger with a "bar" sub-logger, which together would be known as "foo.bar".  Additionally, each log message has a "level" associated with it, which corresponds to how important (or severe) the message is.  The log.level component lets you configure which loggers show what level of detail.  The log levels from most to least severe are:
-
+O POX utiliza a infraestrutura de log do Python. Cada componente tem seus próprios loggers, o nome de cada é mostrado como parte da mensagem de log. Os loggers atualmente formam uma hierarquia - você tem o logger “foo” com o sub-logger “bar”, que juntos serão conhecidos como “foo.bar”. Adicionalmente, cada mensagem de log tem um “nível” associado, que corresponde que determina o quão importante (ou severa) a mensagem é. O componente log.level permite que você configure qual o nível de detalhe de log de cada logger. Os níveis de de log do mais severo para o menos severo são:
 
 CRITICAL
 ERROR
 WARNING
 INFO
 DEBUG
-POX's default level is INFO.  To set a different default (e.g., a different level for the "root" of the logger hierarchy):
 
+O nivel de log padrão é o INFO. Para definir um nível diferente do padrão (exemplo, um nível diferente para o “root” da hierarquia dos loggers):
 
-`./pox.py log.level --WARNING
-`
+```
+./pox.py log.level --WARNING
+```
 
-If you are trying to debug a problem with OpenFlow connections, however, you may want to turn up the verbosity of OpenFlow-related logs.  You can adjust all OpenFlow-related log messages like so:
+Se você estiver tentando debugar um problema com as conexões OpenFlow, sugere-se que você aumente o nível de detalhe dos logs relacionados com o OpenFlow. Você pode ajustar todas as mensagens de log relacionadas com o OpenFlow da seguinte maneira:
 
+```
+./pox.py log.level --WARNING --openflow=DEBUG
+```
 
-`./pox.py log.level --WARNING --openflow=DEBUG
-`
+Se isto deixar você com muitas mensagens do nível de DEBUG do openflow.discovery, as quais você não está interessado, você pode desligar-las especificamente:
 
-If this leaves you with too many DEBUG level messages from openflow.discovery which you are not interested in, you can then turn it down specifically:
-
-
-`./pox.py log.level --WARNING --openflow=DEBUG --openflow.discovery=INFO
-`
+```
+./pox.py log.level --WARNING --openflow=DEBUG --openflow.discovery=INFO
+```
 
 samples.pretty_log
-This simple module uses log.color and a custom log format to provide nice, functional log output on the console.
-
+Este simples módulo utiliza o log.color e um formato customizado de log para fornecer uma boa e funcional saída do log no console.
 
 tk
-This component is meant to assist in building Tk-based GUIs in POX, including simple dialog boxes.  It is quite experimental.
+Este componente tem o objetivo de auxiliar a construção de interfaces gráficas dentro do POX baseadas em Tk, incluindo as simples caixas do dialog. Este recurso ainda é experimental.
 
 
 <a id = "dev"></a>
 ##Desenvolvendo seus próprios componentes
+
 This section tries to get you started developing your own components for POX.  In some cases, you might find that an existing component does almost what you want.  In these cases, you might start by making a copy of that component and working from there.
 
 
