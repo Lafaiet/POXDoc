@@ -1637,7 +1637,7 @@ TODO: Discuss listening to events on Connection objects and other Connection att
 There are many types of messages you might send to a datapath – the OpenFlow specification holds a complete list.  We'll cover two of these – FlowMods and PacketOuts – below.
 
 
-Exemplo: Sending a FlowMod
+####Exemplo: Sending a FlowMod
 To send a flow mod you must define a match structure (discussed above) and set some flow mod specific parameters as shown here:
 
 
@@ -1651,7 +1651,7 @@ connection.send(msg)
 Using the connection variable obtained when the datapath joined, we can send the flowmod to the switch.
 
 
-Exemplo: Enviando um PacketOut
+####Exemplo: Enviando um PacketOut
 De modo similar à um flow mod, é preciso primeiro definir um pacote de saída como mostrado:
 
 
@@ -1673,6 +1673,7 @@ Essa sessão tem por objetivo destacar alguns projetos que fazem uso do POX mas 
 POXDesk: Uma interface gráfica web para o POX
 
 
+![](http://www.noxrepo.org/wp-content/uploads/2012/09/POXDesk4.png)
 
 
 Esse é um projeto paralelo do Murphy em estado bem inicial. Ele roda na versão beta do POX e provê algumas funcionalidades: um inspetor de tabela de fluxo, um visualizador de log, um visualizador simples de topologia, um terminal, um switch l2 implementado em JavaScript, etc. É implementado usando o framework Qooxdoo JavaScript no front end e um servidor web e serviço de mensagens do  POX no backend. 
