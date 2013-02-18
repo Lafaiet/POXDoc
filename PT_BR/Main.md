@@ -373,7 +373,7 @@ Este componente tem o objetivo de auxiliar a construção de interfaces gráfica
 <a id = "dev"></a>
 ##Desenvolvendo seus próprios componentes
 
-This section tries to get you started developing your own components for POX.  In some cases, you might find that an existing component does almost what you want.  In these cases, you might start by making a copy of that component and working from there.
+Essa sessão tem por objetivo lhe orientar no desenvolvimento de suas prórpias aplicações para o POX. Em alguns casos você pode encontrar algum componente que faz exatamente o que você quer. Em outros, você começará fazendo uma cópia desse componente, começando a trabalhar apartir daí.
 
 
 The "ext" directory
@@ -868,7 +868,6 @@ Note: O método callDelayed() do objeto POX core é uma forma mais fácil de set
 
 
 Argumentos do construtor de Timer
-
 
 
 Argumento
@@ -1443,7 +1442,7 @@ O parâmetro de pacote é um pacote passado ou ofp_packet_in para o qual cria-se
 Note que você pode agora setar campos do objeto de combinação resultante para None caso queira uma combinação menos exata.
 
 
-###OpenFlow Actions
+###Ações OpenFlow
 
 OpenFlow actions are applied to packets that match a rule installed at the datapath. The code snippets found here can be found in libopenflow_01.py in pox/openflow.
 
