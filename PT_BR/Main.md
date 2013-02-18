@@ -1620,7 +1620,7 @@ class MyClass (object):
 
 ```
 
-Se você souber o DPID do switch,você pode o extrair de core.openflow usando o método getConnection(). Por último, você pode iterar sobre core.openflow.connections, que é uma lista de todas as coneções ativas.
+Se você souber o DPID do switch,você pode o extrair de core.openflow usando o método getConnection(). Por último, você pode iterar sobre core.openflow.connections, que é uma lista de todas as conexões ativas.
  
 
 Note: se você só quer enviar uma mensagem ao swutch e você sabe o seu DPID, você pode usar core.openflow.sendToDPID(dpid, msg). Isso é similar a fazer core.openflow.getConnection(dpid).send(msg).
@@ -1628,19 +1628,20 @@ Note: se você só quer enviar uma mensagem ao swutch e você sabe o seu DPID, v
 
 ####Objetos Connection
 
-Once you have a Connection object, you can use it to listen to events specific to that connection/datapath, and you can use its send() method to send OpenFlow messages to the associated datapath.
 
+Uma vez que você tenha um objeto /connection, você pode usá-lo para escutar eventos específicos daquela(e) conexão/switch, e pode usar o seu método send() para enviar mensagens OpenFlow ao switch associado.
 
 TODO: Discuss listening to events on Connection objects and other Connection attributes (e.g., .features).
 
-
-There are many types of messages you might send to a datapath – the OpenFlow specification holds a complete list.  We'll cover two of these – FlowMods and PacketOuts – below.
-
-
-####Exemplo: Sending a FlowMod
-To send a flow mod you must define a match structure (discussed above) and set some flow mod specific parameters as shown here:
+Há muitos tipos de mensagens que você pode enviar a um switch- a especificação do OpenFlow contém uam lista completa. Vamos cobrir as seguintes: FlowMods e PacketOuts- abaixo:
 
 
+####Exemplo: Enviando um FlowMod
+
+Para enviar um flow mod você precisa definir uma estrutura de combinação (discutido acima) e setar alguns parâmetros específicos de flow mod como abaixo:
+
+
+```
 msg = ofp_flow_mod()
 msg.match = match
 msg.idle_timeout = idle_timeout
@@ -1648,17 +1649,21 @@ msg.hard_timeout = hard_timeout
 msg.actions.append(of.ofp_action_output(port = port))
 msg.buffer_id = <some buffer id, if any>
 connection.send(msg)
-Using the connection variable obtained when the datapath joined, we can send the flowmod to the switch.
+```
+
+Usando a variável de conexão obtida pelo switch conectado, nós podemos enviar um flow mod a ele.
 
 
 ####Exemplo: Enviando um PacketOut
+
 De modo similar à um flow mod, é preciso primeiro definir um pacote de saída como mostrado:
 
-
+```
 msg = of.ofp_packet_out(in_port=of.OFPP_NONE)
 msg.actions.append(of.ofp_action_output(port = outport))
 msg.buffer_id = <some buffer id, if any>
 connection.send(msg)
+```
 
 inport é setado como OFPP_NONE por que o pacote foi gerado no controlador e não originado como um pacote no switch.
 
