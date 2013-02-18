@@ -871,7 +871,6 @@ Argumentos do construtor de Timer
 
 
 
-
 Argumento
 	Tipo- padrão
 	Significado
@@ -912,9 +911,9 @@ Nome
 	para o temporizador (não chama o callback novamente)
 	
 
-Exemplo - Temporizador único
+***Exemplo - Temporizador único***
 
-
+```
 from pox.lib.recoco import Timer
 
 
@@ -925,20 +924,20 @@ def handle_timer_elapse (message):
 Timer(10, handle_timer_elapse, args = ["Hello"])
 
 
-# Prints out "I was told to tell you: Hello" in 10 seconds
+# Imprime "I was told to tell you: Hello" em 10 segundos
 
 
-# Alternate way for simple timers:
+# Modo alternativo para temporizadores simples:
 from pox.core import core # Many components already do this
 core.callDelayed(10, handler_timer_elapse, "Hello") # You can just tack on args and kwargs.
 
+```
 
 
+***Exemplo - Temporizador Recorrente***
 
-Exemplo - Temporizador Recorrente
-
-
-# Simulate a long road trip
+```
+# Simula uma longa viagem
 
 
 from pox.lib.recoco import Timer
@@ -953,9 +952,9 @@ def are_we_there_yet ():
 
 
 Timer(30, are_we_there_yet, recurring = True)
+```
 
-
-Trabalhando com sockets: ioworker
+###Trabalhando com sockets: ioworker
 
 
 pox.lib.ioworker contém uma API de alto nível para trabalhar com sockets assincronos em POX. envios são dispare-e-esqueça (fire-and-forget), dados recebidos são buferizados e um callback é disparado quando há algo disponível, etc. 
