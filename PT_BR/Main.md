@@ -456,9 +456,9 @@ A maior vantagem dessa abordagem é que as dependendências entre os componentes
 
 Muitos módulos no POX vão querer acessar o core object. Por convensão, isso é feito importando core object, so seguinte modo:
 
-
-`from pox.core import core
-`
+```
+from pox.core import core
+```
 
 TODO: Write more about this!
 
@@ -471,6 +471,7 @@ como mencionado acima, pode ser conveniente para um componente “registrar” u
 
 core.register() recebe dois argumento. O segundo é o objeto que queremos no core. O primeiro é o nome que queremos usar para isso. Aqui temos um exemplo de um componente simples com uma função launch() que registra esse componente como core.thing:
  
+```
   class MyComponent (object):
   def __init__ (self, an_arg):
         self.arg = an_arg
@@ -486,22 +487,22 @@ def launch ():
   core.register("thing", component)
   core.thing.foo() # prints "MyComponent with arg: spam"
   
-  
+```  
 
 No caso de, por exemplo, funções de execução que podem ser invocadas múltiplas vezes, você pode querer só registrar um objeto uma vez. Você pode simplesmente checar se se ocomponente já foi registrado (usando core.hasComponent()), mas isso pode ser feito também com core.registerNew(). Enquanto você passa um objeto específico para core.register(),  você passa uma classe para core.refisterNew(). Se o componente em questão já foi registrado, registerNew() não faz nada.
 
 
 registerNew() geralmente recebe um único parâmetro- a classe qeu você deseja instanciar. Se o métido __init)) dessa classe recebe argumentos, voce pode passá-los como parâmetros adicionais para registerNew(). Por exemplo, podemos mudar a função de execução acima para: 
 
-
+```
 def launch ():
   core.registerNew(MyComponent, "spam")
   core.MyComponent.foo() # prints "MyComponent with arg: spam"
-
+```
 
 Note que registerNew() registra automaticamente o objeto recebido usando o nome de sua classe (isto é, ele agora é “MComponent” ao invéz de “thing”). Isso pode ser sobreescrito fornecendo um atributo _core_name ao objeto:
 
-
+```
 class MyComponent (object):
   _core_name = "thing"
 
@@ -513,6 +514,8 @@ class MyComponent (object):
 
   def foo (self):
         print "MyComponent with arg:", self.arg
+```
+
 Trabalhando com endereços: pox.lib.addresses
 
 
@@ -521,7 +524,7 @@ Endereços IP e Ethernet no POX são representados por classes IPAddr e EthAddr 
 
 Por exemplo, quando trabalhamos com endereços IP:
 
-
+```
 from pox.lib.addresses import IPAddr, EthAddr
 
 
@@ -533,7 +536,7 @@ print ip.toRaw() # Retorna um objeto de tamanho de quatro bytes(uma string de qu
 
 ip = IPAddr(16885952,networkOrder=True)
 print str(ip) # Também imprime "192.168.1.1" !
-
+```
 
 O sistema de eventos: pox.lib.revent
 
@@ -544,7 +547,7 @@ Tratamento de eventos no POX se encaixa dentro do paradigma inscrição e public
 A biblioteca revent pode na verdade fazer algumas coisas estranhas. POX somente usa apenas uma porção de subconjunto de coisas não estranhas dessa funcionalidade, e particularmente usa só um subconjunto desse subconjunto! O que é descrito nessa seção é o subconjunto que o POX mais pesadamente. 
 Eventos no POX são todas instancias de subclasses de reventEvent. Uma classe que levanta um evento (uma fonte de evento) herda de revent.EventMixin, e declara quais eventos ela levanta em um uma variével de classe denominada _eventMixin_Events. Aqui está um exemplo de uma classe que levanta dois eventos:     
 
-
+```
 class Chef (EventMixin):
   """
   Class modeling a world class chef
@@ -556,7 +559,7 @@ class Chef (EventMixin):
         SpamStarted,
         SpamFinished,
   ])
-
+```
 
 Tratando eventos
 
@@ -568,9 +571,11 @@ Então talvez seu programa possua um objeto de uma classe Chef chamada chef. Voc
 Tratadores de eventos
 Primeiramente, vejamos exatamente como um evento escutador se parece. Resimindo: é uma função (ou um método ou alguma coisa que é invocável). Eles quase sempre recebem somente um argumento- o objeto do evento em si (contuto isso nem sempre é o caso- uma classe de evento pode mudar seu comportamento, em todo caso, essa documentação deve mencionar isso!). Assumindo SpamFinished como um evento típico, ele pode ter um tratador do tipo:
 
-
+```
 def spam_ready (event):
   print "Spam is ready!  Smells delicious!"
+```
+
 Listening To an Event
 
 
@@ -588,7 +593,7 @@ chef.addListenerByName("SpamFinished", spam_ready)
 Setando escutadores automaticamente
 Frequentemente, seu evento escutador é um método de uma classe. Tmabém, você está frequentemente interessado em escutar múltiplos eventos de um mesmo objeto fonte. revent provê um atalho para essa situação: addListeners().
 
-
+```
 class HungryPerson (object):
   """ Models a person that loves to eat spam """
 
@@ -603,12 +608,14 @@ class HungryPerson (object):
 
   def _handle_SpamFinished (self, event):
         print "Spam is ready!  Smells delicious!"
+```
+
 Quando você chama foo.addListeners(bar), ele procura nos eventos de foo, e se encontra um método em bar um nome como  _handle_EventName, ele seta esse método como escutador.
 
 
 Em alguns caso, você pode querer apenas que uma única classe escute eventos de múltiplas fontes. Às vezes é importante que você distingua ambos entre si. Para esse propósito, você pode também usar um “prefixo” que é inserido aos nomes dos tradores:
 
-
+```
 class VeryHungryPerson (object):
   """ Models a person that is hungry enough to need two chefs """
 
@@ -624,12 +631,12 @@ class VeryHungryPerson (object):
 
   def _handle_secondary_SpamFinished (self, event):
         print "Backup spam is ready.  Smells slightly less delicious."
-
+```
 
 Criando seus próprios tipos de eventos
 Como visto acima, eventos são subclasses de revent.Event. Então para criar um evento, simplesmente crie uma subclasse de Event. Você pode adicionar qualquer atributo extra ou métodos que você queira. Continuando nosso exemplo:
 
-
+```
 class SpamStarted (Event):
   def __init__ (self, brand = "Hormel"):
         Event.__init__(self)
@@ -641,6 +648,7 @@ class SpamStarted (Event):
         # If it's not Hormel, it's just canned spiced ham!
         return self.brand == "Hormel"
 
+```
 
 Note que você deve explicitamente chamar o método __init__() da superclase! (Você pode fazer isso como acima, ou fazer do jeito mais novo super(MyEvent, self).__init__().)
 
@@ -696,34 +704,35 @@ Todos as classes de pacotes do POX estão localizadas em pox/lib/packet. Por con
 import pox.lib.packet as pkt
 Pode-se navegar pelos pacotes encapsulador de duas formas: usando o atributo de payload do objeto de pacote, ou usando o método find(). Por exemplo, aqui é mostrado como passar uma mensagem ICMP usando o atributo de payload:
 
-
+```
 def parseICMP(packet):
         if eth_packet.type == ethernet.IP_TYPE:
             ip_packet = eth_packet.payload
             if ip_packet.protocol = ipv4.ICMP_PROTOCOL
                 icmp_packet = ip_packet.payload
 ...
-
+```
 
 Essa provavelmente não é a melhor forma de se navegar por um pacote, mas ilustra a estrutura de um cabeçalho de pacote no POX. Em cada nível de encapsulamento os valores do cabeçalho do pacote podem ser obtidos. Por exemplo, o endereço de IP de origem do pacote 
 ...
+```
 src_ip = ip_packet.srcip
 icmp_sequence = icmp_packet.seq
-
+```
 
 E similarmente para outros cabeçalhos de pacotes. Consulte o código específico do pacote para outros cabeçalhos. 
 
 
 Um método find de algum objeto pode ser usado para encontrar um pacote encapsulado específico atravéz do nome desejado (e.g., “icmp”) ou sua classe (e.g., pkt.ICMP). Se opacote não encapsula o tipo de pacote requisitado, find() retorna None. Por exemplo:
 
-
+```
 def handle_IP_packet (packet):
   ip = packet.find('ipv4')
   if ip is None:
         # This packet isn't IP!
         return
   print "Source IP:", ip.srcip
-
+```
 
 A seguinte sessão detalha alguns atributos/métodos/constantes úteis de alguns tipos de pacotes suportados.
 
@@ -814,7 +823,7 @@ Exemplo: Mensagens de ARP
 
 Você provavelmente pode querer que o cotrolador sirva de proxy para requisiões de ARP ap invéz de inundá-los todos na rede dependendo do fato de você já conhecer que o endereço MAC da máquina que a requisição ARP está procurando. Para lidar com pacotes ARP você deve ter um escutador de eventos programado para receber pacotes que chegam como mostrado:  
 
-
+```
 def _handle_PacketIn (self, event):
         packet = event.parsed
         if packet.type == packet.ARP_TYPE:
@@ -836,7 +845,7 @@ def _handle_PacketIn (self, event):
                 print "It's a reply; do something cool"
             else:
                 print "Some other ARP opcode, probably do something smart here"
-
+```
 
 Veja o componente l3_learning para um exemplo completo do uso so controlador para tratar requisições ARP e gerar respostas.
 
