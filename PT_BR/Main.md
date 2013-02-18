@@ -99,7 +99,7 @@
        * Setar endereço IP de origem ou destino
        * Setar tipo de serviço IP
        * Setar porta de origem ou destino TCP/UDP
-  * comunicando com um Datapath (Switch)
+  * Comunicando-se com um Datapath (Switch)
        * Objetos Connection
        * Exemplo: Enviando um FlowMod
        * Exemplo: Enviando um PacketOut
@@ -1404,10 +1404,10 @@ for con in core.openflow.connections: # make this _connections.keys() for pre-be
 ###Estrutura de combinação
 
 
-OpenFlow define uma estrutura de combinação – ofp_match – que permite a você definir um conjunto de cabeçalhos que serão combinados. Você pode tanto criar do zero ou usar um facory method para criar baseado em um pacote pacore já existente.
+OpenFlow define uma estrutura de combinação – ofp_match – que permite a você definir um conjunto de cabeçalhos que serão combinados. Você pode tanto criar do zero ou usar um facory method para criar baseado em um pacote pacote já existente.
 
 
-A estrutura de combinação é definida em pox/openflow/libopenflow_01.py na classe ofp_match.  Seus atributos são derivados dso membros existentes na especificação do OpenFlow, então dirija-se à ela para maiores informações. Ainda assim, ela está resumida na tabela abaixo:
+A estrutura de combinação é definida em pox/openflow/libopenflow_01.py na classe ofp_match.  Seus atributos são derivados dos membros existentes na especificação do OpenFlow, então dirija-se à ela para maiores informações. Ainda assim, ela está resumida na tabela abaixo:
 
 
 Atributos de ofp_match :
@@ -1430,21 +1430,19 @@ tp_dst    Porta de destino TCP/UDP
 
 Atributos podem ser especificados tanto sobre um objeto como durante sua inicialização.  Isto é, os seguintes são equivalentes:
 
-
+```
 my_match = of.ofp_match(in_port = 5, dl_dst = EthAddr("01:02:03:04:05:06"))
 `#.. ou ..`
 my_match = of.ofp_match()
 my_match.in_port = 5
 my_match.dl_dst = EthAddr("01:02:03:04:05:06")
-
+```
 
 Campos não especificados são tratados como wildcards e vão combinar com qualquer pacote. Você pode explicitamente setar um campo para ser wildcard setando o mesmo como None.
 
 
-
-
-Enquanto a estrutura ofp_match do OpenFlow é definida como tendo atributos wildcards, você provavelmente nunca precisará setar isso quando estiver usando o POX- simplesmente não atribua valores ao campo que você quer que seja wildcard (ou atribua NOne).
-Os campos de endereço IP podem na verdade ser parcialmente wildcard, o que lhe permite combinar subnets inteiras. Há algumas formas de fazer isso. Aqui estão algumas equivalente:
+Enquanto a estrutura ofp_match do OpenFlow é definida como tendo atributos wildcards, você provavelmente nunca precisará setar isso quando estiver usando o POX- simplesmente não atribua valores ao campo que você quer que seja wildcard (ou atribua None).
+Os campos de endereço IP podem na verdade ser parcialmente wildcard, o que lhe permite combinar subredes inteiras. Há algumas formas de fazer isso. Aqui estão algumas equivalente:
 
 
 my_match.nw_src = "192.168.42.0/24"
@@ -1452,21 +1450,25 @@ my_match.nw_src = (IPAddr("192.168.42.0"), 24)
 my_match.nw_src = "192.168.42.0/255.255.255.0"
 
 
-Como exemplo, o código seguinte criará uma combinação para tráfego direcionado a web server:
+Como exemplo, o código seguinte criará uma combinação para tráfego direcionado a servidor web:
 
-
+```
 import pox.openflow.libopenflow_01 as of # POX convention
 import pox.lib.packet as pkt # POX convention
 my_match = of.ofp_match(dl_type = pkt.ethernet.IP_TYPE, nw_proto = pkt.ipv4.TCP_PROTOCOL, tp_dst = 80)
-Define a match from an existing packet
-There is a simple way to create an exact match based on an existing packet object (that is, an ethernet object from pox.lib.packet) or from an existing ofp_packet_in.  This is done using the factory method ofp_match.from_packet().
+```
 
+###Define uma combinação partindo de um pacote existente
 
+Há um jeito simples de criar uma combinação baseada em um objeto de pacotes existe (isto é, um objeto ethernet da pox.lib.packet) ou de um ofp_packet_in existente. Isso é feito usando o factory method ofp_match.from_packet().
+
+```
 my_match = ofp_match.from_packet(packet, in_port)
-The packet parameter is a parsed packet or ofp_packet_in from which to create the match, and the in_port parameter is the switch port you want this match to match agains (or leave it unspecified to match on all switch ports).
+```
 
+O parâmetro de pacote é um pacote passado ou ofp_packet_in para o qual cria-se a combinação, e o parâmetro in_port é a porta do switch que você quer combinar (ou deixe não especificado para combinar com todas as portas do switch).
 
-Note that you can now set fields of the resultant match object to None if you want a less-than-exact match.
+Note que você pode agora setar campos do objeto de combinação resultante para None caso queira uma combinação menos exata.
 
 
 ###OpenFlow Actions
@@ -1598,14 +1600,15 @@ tp_port (short) - the port value to set (< 65534)
 As with the MAC and IP addresses, it may be convenient to use the two factory methods (set_dst() and set_src()) rather than explicitly creating instances of this class.
 
 
-###Communicating with a Datapath (Switch)
+###Comunicando-se com um Datapath (Switch)
 
-Connections to datapaths exist in POX in the form of Connection objects.  Connection objects have a variety of events that you can listen to in order to be advised of events related to that particular datapath (in many cases, these are the same as events on the core.openflow object, except those are fired for events on any switch).  Additionally, it can be used to send messages to the datapath.
-
-
-There are multiple ways that you can get access to a Connection object.  A common way takes advantage of the fact that when a switch connects, a ConnectionUp event is fired on core.openflow – you can simply save the Connection object to your own variable:
+Coneções aos switches ocorrem no POX sob a forma de objetos Connection. Objetos Connection tem uma variedade de eventos que vocês podem escutar para ser avisado de eventos relativos a um switch em particular. (em muitos casos, há os mesmos eventos no objeto core.openflow, exceto aqueles aventos disparados por eventos em qualquer switch). Adicionalmente, ele pode pode ser usado para envio de mensagens aos switches.
 
 
+Há múltiplas formas de se acessar um objeto Connection. Uma forma comum é tomar proveito do fato de que, quando um switch se conecta, um evento ConnectionUp é disparado em core.openflow - você pode simplesmente salvar o objeto Connection em sua prória variável:
+
+
+```
 class MyClass (object):
         def __init__ (self):
             self.connections = set()
@@ -1613,14 +1616,18 @@ class MyClass (object):
 
 
         def _handle_ConnectionUp (self, event):
-            self.connections.add(event.connection) # See ConnectionUp event
-If you know the DPID of the switch, you can also retrieve it from core.openflow using the getConnection() method.  Lastly, you can iterate core.openflow.connections, which is a list of all active connections.
+            self.connections.add(event.connection) # Ver o evento ConnectionUp
+
+```
+
+Se você souber o DPID do switch,você pode o extrair de core.openflow usando o método getConnection(). Por último, você pode iterar sobre core.openflow.connections, que é uma lista de todas as coneções ativas.
+ 
+
+Note: se você só quer enviar uma mensagem ao swutch e você sabe o seu DPID, você pode usar core.openflow.sendToDPID(dpid, msg). Isso é similar a fazer core.openflow.getConnection(dpid).send(msg).
 
 
-Note: If you just want to send a message to a datapath and you know its DPID, you can use core.openflow.sendToDPID(dpid, msg).  This is similar to do doing core.openflow.getConnection(dpid).send(msg).
+####Objetos Connection
 
-
-Connection Objects
 Once you have a Connection object, you can use it to listen to events specific to that connection/datapath, and you can use its send() method to send OpenFlow messages to the associated datapath.
 
 
