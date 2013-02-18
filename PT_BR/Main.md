@@ -892,11 +892,7 @@ Argumento
 	Se verdadeiro, o callback de um temporizador recorrente pode retornar False para cancelar o temporizador.
 	
 
-
-
 Métodos de Timer
-
-
 
 
 Nome 
@@ -906,8 +902,6 @@ Nome
 	Nenhum
 	para o temporizador (não chama o callback novamente)
 	
-
-
 
 Exemplo - Temporizador único
 
@@ -965,244 +959,231 @@ TODO: Documentation and samples
 <a id = "of"></a>
 ##OpenFlow no POX
 
+Uma das principais intenções do uso do POX é o desenvolvimento de aplicações de controle OpenFlow. Neste capítulo, descrevemos algumas das características e interfaces do POX que facilitam isso.   
 
-Uma das principais intenções do uso do POX é o desenvolvimento de aplicações de controle OpenFlow. Neste capítulo, descrevemos algumas das características e interfaces do POX que facilitam isso.
+O componente do POX que realmente se comunica com os interruptores de OpenFlow  é o openflow.of_01 (o 01 refere-se ao facto de que este componente se comunica pelo protocolo físico OpenFlow 0x01). Meu padrão, of_01 registra um OpenFlow "nexus" sobre o objeto do núcleo como "OpenFlow". Esta é a principal interface para trabalhar com OpenFlow em POX - você pode usar este nexo OpenFlow para enviar comandos para interruptores e receber mensagens de interruptores (na forma de eventos levanta - consulta a subseção abaixo).  
 
+Sempre quando um switch se conecta ao POX, também há um objeto de conexão associado. Existe muita sobreposição entre as conexões e o Nexus. Qualquer um deles pode ser usado para enviar uma mensagem a um switch, e a maioria dos eventos são gerados em ambos. Às vezes é mais conveniente usar um ou o outro. Se a sua aplicação está aplicada à eventos de todos os switches, faz sentido ouvir ao Nexus, o qual gera eventos para todos os switches. Se você somente está interessado em um único switch,  pode fazer sentido ouvir a uma conexão específica.  
 
+Existem três principais formas de se obter uma referência a um objeto de conexão:  
 
+1. Você pode ouvir aos eventosConnectionUp sobre o nexus - isto passa o novo objeto de conexão à frente 
+2. Você pode usar o método getConnection método do nexus (<DPID>) para encontrar uma conexão por DPID do switch
+3. Você pode enumerar todas as conexões do nexo de sua propriedade através de ligações (por exemplo, para con em core.openflow.connections) Eventos 
 
-O componente do POX que realmente se comunica com os interruptores de OpenFlow  é o openflow.of_01 (o 01 refere-se ao facto de que este componente se comunica pelo protocolo físico OpenFlow 0x01). Meu padrão, of_01 registra um OpenFlow "nexus" sobre o objeto do núcleo como "OpenFlow". Esta é a principal interface para trabalhar com OpenFlow em POX - você pode usar este nexo OpenFlow para enviar comandos para interruptores e receber mensagens de interruptores (na forma de eventos levanta - consulta a subseção abaixo).
+###OpenFlow: Respondendo a Switches 
 
+Nota: Para mais informação sobre o sistema de eventos em POX, consulte a secção relevante deste manual.
 
-Sempre quando um switch se conecta ao POX, também há um objeto de conexão associado. Existe muita sobreposição entre as conexões e o Nexus. Qualquer um deles pode ser usado para enviar uma mensagem a um switch, e a maioria dos eventos são gerados em ambos. Às vezes é mais conveniente usar um ou o outro. Se a sua aplicação está aplicada à eventos de todos os switches, faz sentido ouvir ao Nexus, o qual gera eventos para todos os switches. Se você somente está interessado em um único switch,  pode fazer sentido ouvir a uma conexão específica.
+A maioria dos eventos relacionados OpenFlow são criados em resposta direta a uma mensagem recebida de um interruptor. Como orientação geral, eventos OpenFlow relacionadas têm os três atributos seguintes: 
 
-
-
-
-There are three major ways to get a reference to a Connection object:
-
-
-You can listen to ConnectionUp events on the nexus – these pass the new Connection object along
-You can use the nexus's getConnection(<DPID>) method to find a connection by the switch's DPID
-You can enumerate all of the nexus's connections via its connections property (e.g., for con in core.openflow.connections)
-OpenFlow Events: Responding to Switches
-Note: For more background on the event system in POX, see the relevant section in this manual.
-
-
-Most OpenFlow related events are raised in direct response to a message received from a switch.  As a general guideline, OpenFlow related events have the following three attributes:
-
-
-attribute    type    description
-connection    Connection    Connection to the relevant switch (e.g., which sent the message this event corresponds to)
+Descrição do tipo de atributo
+Conexão com o switch relevante (por exemplo, que enviou a mensagem a qual  evento corresponde a)
 dpid
-long    Datapath ID of relevant switch (use dpid_to_str to format)
-ofp    ofp_header subclass    OpenFlow message object that caused this event.  See OpenFlow Messages for info on these objects
+ID Datapath longo do switch relevante (usar dpid_to_str para o formato)
+ofp 
+subclasse ofp_header
+ objeto de mensagem OpenFlow que causou este evento. Veja Mensagens OpenFlow para obter informações sobre esses objetos.
 
+No restante desta seção, descrevemos alguns dos eventos fornecidos pelo módulo OpenFlow e módulo de topologia. Para começar, aqui está uma forma muito simples componente POX que ouve os eventos ConnectionUp de todas as opções, e registra uma mensagem quando ele ocorre. Você pode colocar isso em um arquivo (por exemplo, ext / connection_watcher.py) e executá-lo (com. ./pox.py connection_watcher) e assistir as conexões dos switches.   
 
+```
+from pox.core import core 
+from pox.lib.util import dpid_to_str 
 
-
-In the rest of this section, we describe some of the events provided by the OpenFlow module and topology module.  To get you started, here's a very simple POX component that listens to ConnectionUp events from all switches, and logs a message when one occurs.  You can put this into a file (e.g., ext/connection_watcher.py) and then run it (with ./pox.py connection_watcher) and watch switches connect.
-
-
-from pox.core import core
-from pox.lib.util import dpid_to_str
-
-
-log = core.getLogger()
-
+log = core.getLogger()  
 
 class MyComponent (object):
-  def __init__ (self):
-        core.openflow.addListeners(self)
+  def __init__ (self): 
+    core.openflow.addListeners(self)
 
+  def _handle_ConnectionUp (self, event): 
+    log.debug("Switch %s has come up.", dpid_to_str(event.dpid))  
+  
+  def launch ():  
+    core.registerNew(MyComponent) 
+```
 
-  def _handle_ConnectionUp (self, event):
-        log.debug("Switch %s has come up.", dpid_to_str(event.dpid))
+####ConnectionUp
 
+Definição da classe do evento:
 
-def launch ():
-  core.registerNew(MyComponent)
-ConnectionUp
-Event class definition:
-
-
-class ConnectionUp (Event):
+```
+  class ConnectionUp (Event):
   def __init__ (self, connection, ofp):
-        Event.__init__(self)
-        self.connection = connection
-        self.dpid = connection.dpid
-        self.ofp = ofp
-Event raised when the connection to an OpenFlow switch has been established.
+    Event.__init__(self)
+    self.connection = connection
+    self.dpid = connection.dpid
+    self.ofp = ofp
+```
 
+Evento levantado quando a conexão a um switch OpenFlow tenha sido estabelecida.
 
-Taking a look at the attributes:
+Examinando os atributos:  notas do tipo de atributo:
+Conexão
 
+Este objeto pode ser usado para comunicação ao switch. Por exemplo, você pode usar isto para  enviar comandos OpenFlow, ou você pode ouvir aos eventos criados pelo próprio objeto de conexão disposto para mensagens aleatórias enviadas pelo switch	
 
-attribute    type    notes
-connection    Connection    This object can be used for communication to the switch.  For example, you can use it to send OpenFlow commands, or you can listen to events sourced by this Connection object in order to handle messages sent by the switch.
-dpid    integer/long    This is the DPID associated with the switch.  Use util.dpidToStr() to display it.
-ofp    ofp_switch_features    Contains information about the switch, for example supported action types (e.g., whether field rewriting is available), and port information (e.g., MAC addresses and names).  (This is also available on the Connection's features attribute.)
-This event can be handled as shown below:
+dpid integer/long
+Este é o DPID associado ao switch. Use util.dpidToStr() para mostrar isto.
+ ofp_switch_features OFP Contém informações sobre o switch, por exemplo, tipos de ação suportados (por exemplo, se o campo para  reescrever está disponível), e as informações de porta (por exemplo, endereços MAC e nomes). ( Isto também está disponível no atributo de características conexão.)
 
+Este evento pode ser tratado como mostrado a seguir: 
 
+```
 def _handle_ConnectionUp (self, event):
-        print "Switch %s has come up." % event.dpid
-ConnectionDown
-Event class definition:
+    print "Switch %s has come up." % event.dpid
+```
 
+####ConnectionDown
 
+Definição da classe do evento:  
+
+```
 class ConnectionDown (Event):
   def __init__ (self, connection, ofp):
-        Event.__init__(self)
-        self.connection = connection
-        self.dpid = connection.dpid
-Event raised when the connection to an OpenFlow switch has been lost.
+    Event.__init__(self)
+    self.connection = connection
+    self.dpid = connection.dpid
+```
 
+Event raised when the connection to an OpenFlow switch has been lost.  
 
-PortStatus
-Event class definition:
+####PortStatus 
 
+Definição da classe do evento: 
 
-class PortStatus (Event):
+```
+ class PortStatus (Event):
   def __init__ (self, connection, ofp):
-        Event.__init__(self)
-        self.connection = connection
-        self.dpid = connection.dpid
-        self.ofp = ofp
-        self.modified = ofp.reason == of.OFPPR_MODIFY
-        self.added = ofp.reason == of.OFPPR_ADD
-        self.deleted = ofp.reason == of.OFPPR_DELETE
-        self.port = ofp.desc.port_no
-Fired in response to port status changes and the code to handle looks like this:
+    Event.__init__(self)
+    self.connection = connection
+    self.dpid = connection.dpid
+    self.ofp = ofp
+    self.modified = ofp.reason == of.OFPPR_MODIFY
+    self.added = ofp.reason == of.OFPPR_ADD
+    self.deleted = ofp.reason == of.OFPPR_DELETE
+    self.port = ofp.desc.port_no
+```
 
+Fired in response to port status changes and the code to handle looks like this: 
 
+```
 def _handle_PortStatus (self, event):
-        if event.added:
-            action = "added"
-        elif event.deleted:
-            action = "removed"
-        else:
-            action = "modified"
-        print "Port %s on Switch %s has been %s." % (event.port, event.dpid, action)
-FlowRemoved
-Event class definition:
+    if event.added:
+        action = "added"
+    elif event.deleted:
+        action = "removed"
+    else:
+        action = "modified"
+    print "Port %s on Switch %s has been %s." % (event.port, event.dpid, action)
+```
 
+####FlowRemoved
+
+Definição da classe do evento:  
 
 ```
 class FlowRemoved (Event):
   def __init__ (self, connection, ofp):
-        Event.__init__(self)
-        self.connection = connection
-        self.dpid = connection.dpid
-        self.ofp = ofp
-        self.idleTimeout = False
-        self.hardTimeout = False
-        self.deleted = False
-        self.timeout = False
-        if ofp.reason == of.OFPRR_IDLE_TIMEOUT:
-          self.timeout = True
-          self.idleTimeout = True
-        elif ofp.reason == of.OFPRR_HARD_TIMEOUT:
-          self.timeout = True
-          self.hardTimeout = True
-        elif ofp.reason == of.OFPRR_DELETE:
-          self.deleted = True
+    Event.__init__(self)
+    self.connection = connection
+    self.dpid = connection.dpid
+    self.ofp = ofp
+    self.idleTimeout = False
+    self.hardTimeout = False
+    self.deleted = False
+    self.timeout = False
+    if ofp.reason == of.OFPRR_IDLE_TIMEOUT:
+      self.timeout = True
+      self.idleTimeout = True
+    elif ofp.reason == of.OFPRR_HARD_TIMEOUT:
+      self.timeout = True
+      self.hardTimeout = True
+    elif ofp.reason == of.OFPRR_DELETE:
+      self.deleted = True
 ```
 
-Raised when a flow entry has been removed from a flow table. This may either be because of a timeout or because it was removed explicitly.  Such notifications are sent when the flow was installed with the OFPFF_SEND_FLOW_REM flag set.  See the OpenFlow specification for further details.
+Gerado quando uma entrada de fluxo foi removida a partir de uma mesa de fluxo. Isto pode até ser devido a um tempo de espera ou porque foi removido explicitamente. Essas notificações são enviadas quando o fluxo foi instalado com o sinalizador OFPFF_SEND_FLOW_REM. Veja a especificação OpenFlow para mais detalhes.
 
+idleTimeout (bool) – True se expirada por causa de ociosidade 
+hardTimeout (bool) - True se expirada por causa do tempo limite rígido 
+timeout (bool) – True se qualquer um dos dois for True 
+deleted (bool) - True se deletado explicitamente 
 
-idleTimeout (bool) - True if expired because of idleness
-hardTimeout (bool) - True if expired because of hard timeout
-timeout (bool) - True if either of the above is true
-deleted (bool) - True if deleted explicitly
-Statistics Events
+####Statistics Events 
+
+```
 class RawStatsReply (Event):
   def __init__ (self, connection, ofp):
-        self.connection = connection
-        self.ofp = ofp         # Raw ofp message(s)
-
-
+    self.connection = connection
+    self.ofp = ofp     # Raw ofp message(s)
+ 
 class StatsReply (Event):
   def __init__ (self, connection, ofp, stats):
-        Event.__init__(self)
-        self.connection = connection
-        self.ofp = ofp         # Raw ofp message(s)
-        self.stats = stats # Processed
-
-
+    Event.__init__(self)
+    self.connection = connection
+    self.ofp = ofp     # Raw ofp message(s)
+    self.stats = stats # Processed
+ 
 class SwitchDescReceived (StatsReply):
   pass
-
-
+ 
 class FlowStatsReceived (StatsReply):
   pass
-
-
+ 
 class AggregateFlowStatsReceived (StatsReply):
   pass
-
-
+ 
 class TableStatsReceived (StatsReply):
   pass
-
-
+ 
 class PortStatsReceived (StatsReply):
   pass
-
-
+ 
 class QueueStatsReceived (StatsReply):
   pass
-While one can listen for raw stats messages, this is not particularly convenient as you must check the type of statistic it is holding, and you may need to manually assemble complete groups of statistics because a single statistics request may be responded to in multiple parts.  It is usually much easier to listen for specific events that are subclasses of StatsReply, e.g., FlowStatsReceived.  When handling these StatsReply-based events, the stats property will contain a complete set of statistics (e.g., an array of ofp_flow_stats).  See the section on ofp_stats_request for more information.
+```
 
+Embora se possa escutar mensagens estatísticas primas, isso não é particularmente conveniente assim como  você pode verificar o tipo de estatística que está segurando, e você pode precisar manualmente montar grupos completos de estatísticas porque um único pedido de estatísticas  deve ser respondido em várias partes. É geralmente muito mais fácil ouvir eventos específicos que são subclasses de StatsReply, por exemplo, FlowStatsReceived. Ao manusear esses eventos StatsReply base, a propriedade estatísticas irá conter um conjunto completo de estatísticas (por exemplo, uma matriz de ofp_flow_stats). Veja a seção sobre ofp_stats_request para mais informações.
+ 
+####PacketIn 
+Definição do evento:  
 
-PacketIn
-Event definition:
-
-
+```
 class PacketIn (Event):
   def __init__ (self, connection, ofp):
-        Event.__init__(self)
-        self.connection = connection
-        self.ofp = ofp
-        self.port = ofp.in_port
-        self.data = ofp.data
-        self._parsed = None
-        self.dpid = connection.dpid
-Fired in response to PacketIn events
+    Event.__init__(self)
+    self.connection = connection
+    self.ofp = ofp
+    self.port = ofp.in_port
+    self.data = ofp.data
+    self._parsed = None
+    self.dpid = connection.dpid
+```
 
+Fired in response to PacketIn events 
 
-port (int) - number of port the packet came in on
-data (bytes) - raw packet data
-parsed (packet subclasses) - pox.lib.packet's parsed version
-ofp (ofp_packet_in) - OpenFlow message which caused this event
-connection - Connection to switch from which this event originated
-ErrorIn
-Event definition:
+port (int) – número da porta de qual o pacote veio 
+data (bytes) – dados do pacote brutos 
+parsed (packet subclasses) – Versão analisada do pox.lib.packet 
+ofp (ofp_packet_in) – Mensagem OpenFlow que causou este evento 
+connection – Conexão para o switch a partir do qual este evento se originou
 
+####ErrorIn
+Definição do evento: 
 
-class ErrorIn (Event):
-  def __init__ (self, connection, ofp):
-        Event.__init__(self)
-        self.connection = connection
-        self.ofp = ofp
-        self.xid = ofp.xid
-Fired in response to an Error arriving at the controller.  You may also use the asString() method to see a string representation of the error.
-
-
-BarrierIn
-Event Definition:
-
-
+```
 class BarrierIn (Event):
   def __init__ (self, connection, ofp):
-        Event.__init__(self)
-        self.connection = connection
-        self.ofp = ofp
-        self.dpid = connection.dpid
-        self.xid = ofp.xid
-Fired in response to a barrier reply.
+    Event.__init__(self)
+    self.connection = connection
+    self.ofp = ofp
+    self.dpid = connection.dpid
+    self.xid = ofp.xid
+```
 
+Disparado respondendo a uma resposta de barreira. 
 
 ###Mensagens OpenFlow
 
