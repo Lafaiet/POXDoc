@@ -124,7 +124,7 @@
    * Meu código não está funcionando! Podem me ajudar?
 
 
-<a id = "inst"></a>
+<a id = "inst"/>
 ##Instalando o POX
 <a id = "rec"></a>
 ### Requisitos
