@@ -373,72 +373,65 @@ Este componente tem o objetivo de auxiliar a construção de interfaces gráfica
 <a id = "dev"></a>
 ##Desenvolvendo seus próprios componentes
 
-Essa sessão tem por objetivo lhe orientar no desenvolvimento de suas prórpias aplicações para o POX. Em alguns casos você pode encontrar algum componente que faz exatamente o que você quer. Em outros, você começará fazendo uma cópia desse componente, começando a trabalhar apartir daí.
 
+Essa sessão tem por objetivo lhe orientar no desenvolvimento de suas próprias aplicações para o POX. Em alguns casos você pode encontrar algum componente que faz exatamente o que você quer. Em outros, você começará fazendo uma cópia desse componente, começando a trabalhar a partir daí.
 
-The "ext" directory
-As discussed, POX components are really just Python modules.  You can put your Python code wherever you like, as long as POX can find it (e.g., it's in the PYTHONPATH environment variable).  One of the top-level directories in POX is called "ext".  This "ext" directory is a convenient place to build your own components, as POX automatically adds it to the Python search path (that is, looks inside it for additional modules), and it is excluded from the POX git repository (meaning you can easily check out your own repositories into the ext directory).
+###O diretório "ext"
 
+Como discutido,os componentes POX são somente módulos desenvolvidos em Python. Sendo que você pode salvar seu código em qualquer diretório deste que o POX possa encontrá-lo (por exemplo, no diretório especificado pela variável de ambiente: PYTHONPATH).O diretório superior do POX é chamado de “ext”, este diretório é um local conveniente para a construção dos nossos componentes, já que o POX é automaticamente adicionando ao path de pesquisa do Python (ou seja é visível aos outros módulos existentes). 
 
-Thus, one common way to start building your own POX module is simply to copy an existing module (e.g., forwarding/l2_learning.py) into the ext directory (e.g., ext/my_component.py).  You can then modify the new file and invoke POX as ./pox.py my_component.
+Sendo assim uma forma usual para se desenvolver um novo modulo POX é copiar um modulo existente (por exemplo: forwarding/l2_learning.py) para o diretório ext (por exemplo ext/my_component.py). E então assim realizar as modificações.
 
+###Função de partida 
 
-The launch function
-While naming a loadable Python module on the commandline is enough to get POX to load it, a proper POX component should contain a launch function.  In the generic sense, a launch function is a function that POX calls to tell the component to initialize itself.  This is usually a function actually named launch, though there are exceptions.  The launch function is how commandline arguments are actually passed to the component.
+Ainda que um módulo do Python possar ser carregado através da linha de comando, um componente POX   adequado deve possuir uma função de inicialização. De uma forma genérica, uma função de partida chama o POX e inicializa o componente em questão. Essa função funciona como argumentos se argumentos fosses passados na linha de comando.
 
+####Um exemplo Simples 
 
-A Simple Exemplo
-The POX commandline, as mentioned above, contains the modules you want to load.  After each module name is an optional set of parameters that go with the module.  For example, you might have a commandline like:
+O POX em linha de comando, como mencionado anteriormente, contem os módulos que são necessários para o carregamento dos componentes. Após o nome do módulo vem em seguida  um conjunto de paramentos opcionais para o modulo. Por exemplo, uma possível linha de comando seria:
 
+	./pox.py foo --bar=3 --baz --spam=disabled
+	
+Sendo no exemplo acima o nome do modulo “foo”, teremos um diretório chamado “foo” em algum lugar na qual o POX possa localizar que contenha um __init__.py ou simplesmente possua uma arquivo foo.py que o POX possa encontrar (por exemplo, no diretório ext), de forma mínima a função ficaria semelhante a:
 
-./pox.py foo --bar=3 --baz --spam=disabled
-Since the module name is foo, we have either a directory called foo somewhere that POX can find it that contains an __init__.py, or we simply have a foo.py somewhere that POX can find it (e.g., in the ext directory).  At the bare minimum, it might look like this:
-
-
+```
 def launch (bar, baz = "eggs", spam = True):
-  print "foo:", bar, baz, spam
-Note that bar has no default value, which makes the bar parameter not optional.  Attempting to run ./pox.py foo with no arguments will complain about the lack of a value for bar.  Notice that in the example given, bar receives the string value "3".  In fact, all arguments come to you as strings – if you want them as some other type, it is your responsibility to convert them.
+  print "foo:", bar, baz, spam
+```
+  
 
+note que “bar” não possuem um valor padrão, fazendo assim dele um paramento não opcional, ao tentar executar ./pox.py foo sem argumentos irá retorna um erro de falta de um valor para o argumento bar, observe que no exemplo dado, “bar” recebe como string o valor  “3” se por algum motivo for necessário a utilização de algum tipo de dados fica a cargo do usuário a responsabilidade de converte os argumentos para o tipo desejado já que todos os argumentos serão passados como uma cadeia de caractere.
+Note que o o valor padrão para o argumento “spam” é true. Para se alterar o valor deste atributo poderíamos realizar algo como –spam=False, mas isso iria passar uma argumento to tipo string (“False”), sendo esse um casso na qual a conversão de tipo explicita seria usada para um tipo apropriado. Para realizar a conversão do tipos poderíamos utilizar os mecanismos internos oferecidos pelo Python, built-in, int() ou float(), para valores booleanos, poderia escrever seu próprio procedimento ou utilizar a função pox.lib.str_to_bool(), que identifica padrões como “on”, “true” ou “enabled” como verdadeiro e qualquer outra entrada como falso.
+Invocação múltipla
 
-The one exception to the "all arguments are strings" rule is illustrated with the baz argument.  It's specified on the commandline, but not given a value.  So what does baz actually receive in the launch() function?  Simple: It receives the Python True value.  (If it hadn't been specified on the commandline, of course, it would have received the string "eggs".)
+Agora ao executar a seguinte linha:
 
+```
+./pox.py foo --bar=1 foo --bar=2
+```
 
-Note that the spam value defaults to True.  What if we wanted to send it a false value – how would we do that?  We could try --spam=False, but that would just get us the string "False" (which if we tested for truthiness is actually Truthy!).  And if we just did --spam, that would get us True, which isn't what we want at all. This is one of those cases where you have to explicitly convert the value from a string to whatever type you actually want.  To convert to an integer or a floating point value, you could simply use Python's built-in int() or float().  For booleans, you could write your own code, but you might consider pox.lib.util's str_to_bool() function which is pretty liberal about accepting things like "on" or "true" or "enabled" as meaning True, and sees everything else as False.
+Seria esperado o seguinte resultado:
 
-
-Multiple Invocation
-Now what if we were to try the following commandline?
-
-
-`./pox.py foo --bar=1 foo --bar=2
-`
-
-You might expect to see:
-
-
+```
 foo: 1 eggs True
 foo: 2 eggs True
-Instead, however, you get an exception.  POX, by default, only allows components to be invoked once.  However, a simple change to your launch() function allows multiple-invocation:
+```
 
+Em vez deste comportamento, no entanto, é gerado um exceção. Por padrão é permitida apenas que seja executada somente uma única chamada a um componente, No entanto uma simples alteração na função de inicialização é suficiente para que uma invocação múltipla seja permitida. 
 
-`def launch (bar, baz = "eggs", spam = True, __INSTANCE__ = None):
-  print "foo:", bar, baz, spam
-`  
-  
-  
-If you try the above commandline again, this time it will work.  Adding the __INSTANCE__ parameter both flags the function as being multiply-invokable, and also gets passed some information that can be useful for some modules that are invoked multiple times.  Specifically, it's a tuple containing:
+```
+def launch (bar, baz = "eggs", spam = True, __INSTANCE__ = None):
+  print "foo:", bar, baz, spam
+```
 
+após realizar as modificação mostrada acima, e tentar novamente realizar uma chamada múltipla, essa tentativa deve funcionar. Adicionando o parâmetro __INSTANCE__  sinaliza que a função aceita múltipla invocações, além de passar alguma informações para procedimentos que são chamados diversas vezes, os possíveis valores para o parâmetro: 
 
-The number of this instance (0...n-1)
-The total number of instances for this module
-True if this is the last instance, False otherwise (just a comparison between the previous two, but it's handy)
-You might, for example, only want your component to do some of its initialization once, even if your component is specified multiple times.  You can easily do this by only doing that part of your initialization if the last value in the tuple is True.
+* O numero de instâncias (0...n-1)
+* Numero total de instancias para esse modulo 
+* True se for a última instância ou False caso não seja
 
+podemos deseja, por exemplo, que o seu componente faça parte da inicialização somente uma única vez, mesmo se o se componente seja especificado varias vezes. Isso pode ser realizado facilmente, apenas realizando um teste se a ultima tupla for true. 
 
-You might also wish to examine the minimal component given in section "OpenFlow Events: Responding to Switches".  And, of course, check out the code for POX's existing components.
-
-
-TODO: Someone should write a lot more about developing components.
 
 <a id = "api"></a>
 ##API’s do POX
