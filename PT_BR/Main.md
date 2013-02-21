@@ -126,6 +126,7 @@
 
 <a id = "inst"/>
 ##Instalando o POX
+</a>
 <a id = "rec"></a>
 ### Requisitos
 
