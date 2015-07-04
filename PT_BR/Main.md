@@ -127,14 +127,14 @@
 <a id = "inst"/>
 ##Instalando o POX
 </a>
-<a id = "rec"></a>
+<a id = "rec">
 ### Requisitos
-
+</a>
 
 POX requer Python 2.7.  Na prática, ele também pode rodar com 2.6, mas ninguém está atualmente dando suporte a isso.
 
 
-POX oficialmente suporta Windows, Mac OS, e Linux (contudo ele tem sido usado em outros sistemas também).  Muito desenvolvimento ocorre no Mac OS, então ele quase sempre funciona no Mac OS.  Ocasionalmente ocorrem falhas em outros Sistemas operacionais. O tempo gasto para se solucionar esses problemas é ligado a quão rápido eles são reportados. Em geral, problemas no Linux são encontrados bem rápido (especialmente problemas grandes) enquanto no Windows isso é mais lento. Se você perceber algo não funcionando ou que pareça estranho, por favor, submeta a ocorrência no tracker do github ou envie uma mensagem para a lista de email do pox-dev para que possa ser solucionado!
+POX oficialmente suporta Windows, Mac OS, e Linux (contudo ele tem sido usado em outros sistemas também).  Muito do seu desenvolvimento  é feito no Mac OS, então ele quase sempre funciona no Mac OS.  Ocasionalmente ocorrem falhas em outros Sistemas operacionais. O tempo gasto para se solucionar esses problemas é ligado a quão rápido eles são reportados. Em geral, problemas no Linux são encontrados bem rápido (especialmente problemas grandes) enquanto no Windows isso é mais lento. Se você perceber algo não funcionando ou que pareça estranho, por favor, submeta a ocorrência no tracker do github ou envie uma mensagem para a lista de email do pox-dev para que possa ser solucionado!
 
 
 POX pode ser usado com o interpretador "padrão" do Python (CPython), mas também suporta PyPy (veja abaixo).
@@ -143,7 +143,7 @@ POX pode ser usado com o interpretador "padrão" do Python (CPython), mas també
 Adquirindo o Código
 
 
-A melhor maneira para trabalhar com o POX é utilizar um repositório git. Você também pode adquirir em arquivo tar ou zip, porém, trabalhar com controle de versionamento geralmente é melhor.
+A melhor maneira para se trabalhar com o POX é utilizar um repositório git. Você também pode adquirir em arquivo tar ou zip, porém, trabalhar com controle de versionamento geralmente é melhor.
 
 
 POX está hospedado no github. Se pretende fazer modificações no POX em si, você pode criar seu repositório próprio no github atraves da página do repositório POX. Se apenas deseja obter rapidamente para executar ou só brincar com, você pode simplesmente criar uma cópia local.
@@ -170,11 +170,11 @@ Suporte PyPy
 Embora não seja tão fortemente testado como o interpretador Python normal, é um objetivo do POX rodar bem em tempo de execução do Python PyPy. Há duas vantagens nisso. Primeiro, PyPy geralmente é um pouco mais rápido que CPython. Segundo, é facilmente portátil - voce pode facilmente empacotar POX e PyPy em uma única tarball e te-los pronto para rodar.
 Você pode é claro, baixar, instalar e invocar PyPy do modo usual. No Mac OS e no Linux, contudo, POX também suporta um método muito simples: Baixe a última tarball PyPy para o seu SO, e descompactá-lo em uma pasta chamada "PyPy" ao lado pox.py. Depois é só executar pox.py como de costume (./pox.py), e ele deve usar PyPy em vez de CPython.
 
-<a id = "cham"></a>
-##Chamando o  POX
+<a id = "cham">
+##Invocando o  POX
+</a>
 
-
-POX é chamado executando pox.py. POX tem alguns argumentos opcionais que podem ser passados via linha de comando, que podem ser usados no começo da linha de comando:
+POX é invocado executando pox.py. POX tem alguns argumentos opcionais que podem ser passados via linha de comando, que podem ser usados no começo da linha de comando:
 
 
 Opção               Significado
@@ -203,8 +203,9 @@ Alguns componentes possuem argumentos. Esses devem ser especificados após o nom
 
 (Se você está começando a pensar que as linhas de comando podem ficar um pouco longas e complexas, há uma solução: escreva um componente simples responsável apenas por chamar outros componentes.)
 
-<a id = "comp"></a>
+<a id = "comp">
 ##Componentes no POX
+</a>
 
 Quando falamos sobre os componentes dentro do POX, o que realmente queremos dizer é algo que podemos colocar na linha de comando ao chamar o POX, como descrito em “Chamando o  POX”. Nas seções seguintes discutiremos alguns componentes que vem junto com o POX e como você deve proceder para criar o seu próprio.
 
@@ -371,9 +372,9 @@ tk
 Este componente tem o objetivo de auxiliar a construção de interfaces gráficas dentro do POX baseadas em Tk, incluindo as simples caixas do dialog. Este recurso ainda é experimental.
 
 
-<a id = "dev"></a>
+<a id = "dev">
 ##Desenvolvendo seus próprios componentes
-
+</a>
 
 Essa sessão tem por objetivo lhe orientar no desenvolvimento de suas próprias aplicações para o POX. Em alguns casos você pode encontrar algum componente que faz exatamente o que você quer. Em outros, você começará fazendo uma cópia desse componente, começando a trabalhar a partir daí.
 
