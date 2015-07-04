@@ -5,7 +5,7 @@
   * [Requisitos](#req)
   * [Adquirindo o Código](#ac)
   * [Selecionando um Branch / Versão](#sb)
-  * [PyPy Supporte](#pypy)
+  * [Suporte à PyPy](#pypy)
     
    <br>
    
@@ -127,11 +127,12 @@
 <a id = "inst"/>
 ##Instalando o POX
 </a>
-<a id = "rec">
+
+<a id = "req">
 ### Requisitos
 </a>
 
-POX requer Python 2.7.  Na prática, ele também pode rodar com 2.6, mas ninguém está atualmente dando suporte a isso.
+POX requer Python 2.7.  Na prática, ele também pode rodar com 2.6, havendo alguns commits em meados de 2013 para melhorar essa compatibilidade, mas ninguém está atualmente dando suporte a isso. Veja essa FAQ para o histórico de suporte ao Python 3.  Se tudo o que você tiver é o Python 2.6, talvez seja melhor dar uma olhada no <a id = "pypy">PyPy</a> ou no [pythonbrew](https://github.com/utahta/pythonbrew/blob/master/README.rst).
 
 
 POX oficialmente suporta Windows, Mac OS, e Linux (contudo ele tem sido usado em outros sistemas também).  Muito do seu desenvolvimento  é feito no Mac OS, então ele quase sempre funciona no Mac OS.  Ocasionalmente ocorrem falhas em outros Sistemas operacionais. O tempo gasto para se solucionar esses problemas é ligado a quão rápido eles são reportados. Em geral, problemas no Linux são encontrados bem rápido (especialmente problemas grandes) enquanto no Windows isso é mais lento. Se você perceber algo não funcionando ou que pareça estranho, por favor, submeta a ocorrência no tracker do github ou envie uma mensagem para a lista de email do pox-dev para que possa ser solucionado!
@@ -139,8 +140,9 @@ POX oficialmente suporta Windows, Mac OS, e Linux (contudo ele tem sido usado em
 
 POX pode ser usado com o interpretador "padrão" do Python (CPython), mas também suporta PyPy (veja abaixo).
 
-
-Adquirindo o Código
+<a id = "ac">
+### Adquirindo o Código
+</a>
 
 
 A melhor maneira para se trabalhar com o POX é utilizar um repositório git. Você também pode adquirir em arquivo tar ou zip, porém, trabalhar com controle de versionamento geralmente é melhor.
@@ -153,8 +155,9 @@ POX está hospedado no github. Se pretende fazer modificações no POX em si, vo
 $ cd pox
 `
 
- 
-Selecionando um branch/ versão
+<a id = "sb">
+### Selecionando um branch/ versão
+</a>
 
 
 O repositório POX possui várias versões. Especificamente, tem ao menos uma versão de lançamento e uma versão ativa. A versão padrão (adquirida atraves dos comandos citados acima) será a versão mais recentemente lançada. Versões de lançamento podem ter algumas atualizações, mas não estão sendo mais desenvolvidas. Por outro lado as versões ativas recentes estão sendo desenvolvidas mais ativamente. Em teoria branches/versões de lançamento tendem a ser mais estáveis ( Queremos dizer que se está trabalhando em algo, não vamos quebrar isso). Em contrapartida os branchs/versões ativas conterá melhorias (conserto de bugs, novas funcionalidades, etc.) Se você irá basear seu trabalho em um ou em outro irá depender de suas necessidades. Uma coisa pode ser um fator em sua decisão é que se você estiver utilizando uma versão/branch ativa, você provavelmente vai receber um melhor suporte nas listas de discurssão.   (muitas respostas começam com "upgrade para o ramo ativo").
@@ -166,12 +169,15 @@ No momento em que este é escrito, o ramo ativo é chamado betta. Para usar o ra
 ~/pox$ git checkout betta
 `
 
-Suporte PyPy
+<a id = "pypy">
+##	Suporte à PyPy
+</a>
+
 Embora não seja tão fortemente testado como o interpretador Python normal, é um objetivo do POX rodar bem em tempo de execução do Python PyPy. Há duas vantagens nisso. Primeiro, PyPy geralmente é um pouco mais rápido que CPython. Segundo, é facilmente portátil - voce pode facilmente empacotar POX e PyPy em uma única tarball e te-los pronto para rodar.
 Você pode é claro, baixar, instalar e invocar PyPy do modo usual. No Mac OS e no Linux, contudo, POX também suporta um método muito simples: Baixe a última tarball PyPy para o seu SO, e descompactá-lo em uma pasta chamada "PyPy" ao lado pox.py. Depois é só executar pox.py como de costume (./pox.py), e ele deve usar PyPy em vez de CPython.
 
 <a id = "cham">
-##Invocando o  POX
+##Chamando o  POX
 </a>
 
 POX é invocado executando pox.py. POX tem alguns argumentos opcionais que podem ser passados via linha de comando, que podem ser usados no começo da linha de comando:
